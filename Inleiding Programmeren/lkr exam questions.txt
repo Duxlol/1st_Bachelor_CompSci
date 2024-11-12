@@ -1,0 +1,4 @@
+vragen examen
+
+1. geeft stukje code dat nt werkt, leg uit (ook meestal meer dan 1 probleem, meerdere bugs)
+2. geeft stukje code dat werkt, maar doet niet alles wat klant wilt
