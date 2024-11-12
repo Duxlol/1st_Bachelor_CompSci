@@ -1,0 +1,110 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+<title>Verslag</title>
+<!-- Het "u" element (underline) is geherdefinieerd voor overline -->
+<style type="text/css">
+    u { text-decoration: overline; }
+    p { white-space: pre-line; }
+</style>
+</head>
+
+<body>
+
+<h1>Verslag</h1>
+<p><b>Titel:</b> <i>CA Project 3: ALU</i></p>
+<p>Dit verslag werd opgesteld door: <br>
+</p><ul>
+<li><b>Naam:</b> <i>Siebe Hach&#233</i><br>
+<b>Studentennummer:</b> <i>20242412</i><br>
+<b>Email adres:</b> <i>sieben.hache@student.uantwerpen.be</i>
+</li>
+<li><b>Naam:</b> <i>Thijs Van Schel</i><br>
+<b>Studentennummer:</b> <i>20245821</i><br>
+<b>Email adres:</b> <i>thijs.vanschel@student.uantwerpen.be</i>
+</li>
+</ul>
+<b>Aantal man-uren besteed:</b> <i>10</i><br>
+<b>Moeilijkheidsgraad:</b> <i>7</i>/10<p></p>
+
+<h2>Inhoud van de oplossing</h2>
+<p>De oplossing bestaat uit de volgende bestanden:</p>
+<ul>
+<li><a href="./ALU_final.circ">Opgave1.circ</a>: .circ bestand van opgave 1</li>
+<li><a href="./ALU.png">Opgave1.png</a>: screenshot van opgave 1</li>
+</ul>
+<h2>Verslag</h2>
+<p>
+<b>ALU:</b>
+<b>Volledige ALU:</b>
+<img src="ALU.PNG" width="400" height="">
+
+<b>Add:</b>
+We hebben gebruikgemaakt van onze adder uit de vorige oefening. Enkel hebben we een paar aanpassingen moeten maken aan onze overflow, aangezien die anders werkt bij two's complement dan bij unsigned integers. 
+
+We kijken naar de most significant bit van beide termen. We gebruiken een XNOR gate. Hierdoor krijgen we enkel een 1 als output als ze beide gelijk zijn. Dan kijken we naar de normale overflow en de most significant bit van de output, we passen daar een XOR gate op toe. Zodat we een 1 als output krijgen als ze verschillend zijn. Als we dan deze twee steken in een and gate komen we op de juiste overflow voor two's complement. 
+<img src="add.PNG" width="400" height="">
+
+<b>Subtract:</b>
+We gebruiken onze adder maar zetten een not bij de B en zorgen ervoor dat de carry-in 1 is. 
+Hierdoor werkt onze adder als subtractor. De overflow wordt hetzelfde berekend, enkel nemen we hier de most significant bit van NOT B.
+<img src="subtract.PNG" width="400" height="">
+
+<b>And:</b>
+Voor AND moesten we gewoon een AND gate gebruiken.
+<img src="and.PNG" width="400" height="">
+
+<b>Or:</b>
+Voor OR moesten we gewoon een OR gate gebruiken. 
+<img src="or.PNG" width="400" height="">
+
+<b>Less than, Greater than, Equals en Not Equals:</b>
+Less than: 
+We trekken B af van A door gebruik te maken van de subtractor. Als A kleiner is dan B, dan zou de most significant bit 1 moeten zijn. We kijken ook of er overflow is. Dus we krijgen enkel een output als maar 1 van de twee inputs 1 is.
+
+<b>Greater than:</b>
+Grotendeels hetzelfde als less than enkekl kijken we hier naar de niet not versie van de most significant bit. Hier hadden we weer beter gebruik kunnen maken van een XNOR gate in plaats van de mux en XOR. We voegen nog een extra XOR toe. Met daarin equal, zodat we niet per ongeluk True terugkrijgen als equal True is.
+<img src="lt_gt_eq_neq.PNG" width="400" height="">
+
+<b>Not equal:</b>
+We voegen gewoon een NOT gate toe na de equal.
+
+<b>Equal:</b>
+We hebben een circuit gemaakt dat voor 4 bit inputs kijkt of ze gelijk zijn. Die we in het grote circuit dan drie keer gebruiken. En in een AND gate stoppen, zodat we een 1 terugkrijgen als alle bits gelijk zijn. 
+<img src="equal.PNG" width="400" height="">
+
+<b>Not:</b>
+We maken gebruik van een NOT gate. 
+<img src="not.PNG" width="400" height="">
+
+<b>Inverse:</b>
+We krijgen de inverse door gebruik te maken van de NOT te nemen van de originele input en daarbij 1 op te tellen. De overflow werkt hetzelfde als bij de Adder.
+<img src="inverse.PNG" width="400" height="">
+
+<b>Shift left logical:</b>
+We verplaatsen elke bit eentje naar links, verwijderen de most significant bit en voegen 0 toe als least significant bit.
+<img src="shift_left_logical.PNG" width="400" height="">
+
+<b>Shift right logical:</b>
+We verplaatsen alle bits naar rechts, verwijderen de least significant bit en voegen een 0 toe als most significant bit.
+<img src="shift_right_logical.PNG" width="400" height="">
+
+<b>Shift left arithmetic:</b>
+Hetzelfde als sll enkel is er hier overflow aanwezig die bepaald wordt door de originele most significant bit en de nieuwe. Er is enkel overflow als zo verschillende binaire waardes hebben.
+<img src="shift_left_arithmetic.PNG" width="400" height="">
+
+<b>Shift right arithmetic:</b>
+Hetzelfde als srl enkel wordt the most significant bit hetzelfde als de originele most significant bit. 
+<img src="shift_right_arithmetic.PNG" width="400" height="">
+
+<b>Zero:</b>
+We zetten gewoon een constante 0 als output. 
+<img src="zero.PNG" width="400" height="">
+
+<b>No operation:</b>
+We laten gewoon de input A doorgaan en veranderen er niets aan.
+</p>
+
+
+
+
+</body></html>

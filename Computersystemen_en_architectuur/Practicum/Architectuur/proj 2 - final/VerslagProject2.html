@@ -1,0 +1,112 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+<title>Verslag</title>
+<!-- Het "u" element (underline) is geherdefinieerd voor overline -->
+<style type="text/css">
+    u { text-decoration: overline; }
+    p { white-space: pre-line; }
+</style>
+</head>
+
+<body>
+
+<h1>Verslag</h1>
+<p><b>Titel:</b> <i>CA Project 2: Adders</i></p>
+<p>Dit verslag werd opgesteld door: <br>
+</p><ul>
+<li><b>Naam:</b> <i>Siebe Hach&#233</i><br>
+<b>Studentennummer:</b> <i>20242412</i><br>
+<b>Email adres:</b> <i>sieben.hache@student.uantwerpen.be</i>
+</li>
+<li><b>Naam:</b> <i>Thijs Van Schel</i><br>
+<b>Studentennummer:</b> <i>20245821</i><br>
+<b>Email adres:</b> <i>thijs.vanschel@student.uantwerpen.be</i>
+</li>
+</ul>
+<b>Aantal man-uren besteed:</b> <i>5</i><br>
+<b>Moeilijkheidsgraad:</b> <i>4</i>/10<p></p>
+
+<h2>Inhoud van de oplossing</h2>
+<p>De oplossing bestaat uit de volgende bestanden:</p>
+<ul>
+<li><a href="./Opgave1.circ">Opgave1.circ</a>: .circ bestand van opgave 1</li>
+<li><a href="./Opgave1.png">Opgave1.png</a>: screenshot van opgave 1</li>
+<li><a href="./Opgave1_Cout_notities.jpg">Opgave1_Cout_notities.jpg</a>: CarryOut notities</li>
+<li><a href="./Opgave1_SUM_notities.jpg">Opgave1_SUM_notities.jpg</a>: sum notities</li>
+<br/>
+<li><a href="./Opgave2.circ">Opgave2.circ</a>: foto van oplossing opgave 2</li>
+<li><a href="./Opgave2.png">Opgave2.png</a>: screenshot van opgave 2</li>
+<br/>
+<li><a href="./Opgave3.circ">Opgave3.circ</a>: .circ bestand van opgave 3</li>
+<li><a href="./Opgave3_compleet.png">Opgave3_compleet.png</a>: screenshot van opgave 3</li>
+<li><a href="./Opgave3_4BitAdder.png">Opgave_4BitAdder.png</a>: screenshot van de 4 bit adder</li>
+<li><a href="./Opgave3_4BitAdder_TruthTable.jpg">Opgave3_4BitAdder_TruthTable.jpg</a>: notities truth table van 4 bit adder</li>
+<li><a href="./Opgave3_CarryLookahead4Bit.png">Opgave3_CarryLookahead4Bit.png</a>: screenshot van de carry lookahead 4bit</li>
+<br/>
+<li><a href="./Opgave4.circ">Opgave4.circ</a>: .circ bestand van opgave 4</li>
+<li><a href="./Opgave4.png">Opgave4.png</a>: screenshot bestand van opgave 4</li>
+</ul>
+
+<h2>Verslag</h2>
+<p>
+<b>Opgave 1:</b>
+De 1 bit full adder heeft 3 inputs; A, B en CarryIn. Ook heeft die 2 outputs; Som en CarryOut. Hiermee gaan we 2 binaire cijfers optellen, samen met de CarryIn. Uiteindelijk zal het de som en de CarryOut als resultaat geven.
+
+Uit de truth table en berekeningen, kunnen we volgende booleaanse vergelijking halen:
+Som = (A &#8853; B) &#8853; CarryIn
+CarryOut = (A * B) + CarryIn * (A &#8853; B) 
+<img src="Opgave1_SUM_notities.jpg" alt="opgave1 sum notities" width="400" height="">  <!--Digital Electronics Laboratory. (z.d.). https://www.iitg.ac.in/cseweb/vlab/Digital-System-Lab/fa_lg.php?id=9-->
+Digital Electronics Laboratory. <a href="https://www.iitg.ac.in/cseweb/vlab/Digital-System-Lab/fa_lg.php?id=9">https://www.iitg.ac.in/cseweb/vlab/Digital-System-Lab/fa_lg.php?id=9</a>
+<img src="Opgave1_Cout_notities.jpg" alt="opgave1 Cout notities" width="400" height="">  <!--Unknown, U. (z.d.). Tutorial 5. https://cvbl.iiita.ac.in/sks/coa-files/tutorial/Tutorial-5.pdf-->
+Unknown, U. (z.d.). Tutorial 5. <a href="https://cvbl.iiita.ac.in/sks/coa-files/tutorial/Tutorial-5.pdf">https://cvbl.iiita.ac.in/sks/coa-files/tutorial/Tutorial-5.pdf</a>
+
+Dit hebben we kunnen maken aan de hand van AND, OR- en XOR-gates. De som berekenen we door A & B te XOR'en, daarna het resultaat ook te XOR'en met de CarryIn. De CarryOut vinden we dan door of, A en B samen te voegen, of wanneer het resultaat van (A&#8853;B) en CarryIn samen 1 is.
+
+Als laatste hebben we het volledige circuit gebouwd aan de hand van de eerder vermelde gates, om de booleaanse expressie te implementeren. 
+Een screenshot van de oplossing, samen met de bijhorende truth table:
+<img src="Opgave1.png" alt="opgave1 logisim" width="400" height="">
+
+<b>Opgave 2:</b>
+Door gebruik te maken van 1-bit adders konden we gemakkelijk een ripple carry 12-bit adder maken. Voor inputs voor elke 1-bit adder hebben we 1-bit van elke 12-bit term en de CarryIn van de vorige. De som en CarryOut worden daarna doorgegeven aan de volgende adder.
+
+Om de overflow aan te duiden hebben we gekozen om gebruik te maken van een lampje dat licht geeft als er een overflow aanwezig is. Dit gebeurt wanneer CarryIn en CarryOut van het MSB na gaan. Een voorbeeld hiervan, dat gegeven is in de opgave, is  2047 + 1 = -2048 or -2048 + (-1) = 2047.
+<img src="Opgave2.png" alt="logisim implementatie" width="400" height="">
+
+
+<b>Opgave 3:</b>
+We hebben een 4-Bit adder gemaakt die de outputs s0, s1, s2, s3, P0, G0 teruggeeft. We gebruiken als inputs twee 4-bit inputs en een carryIn. De sum die we hebben als output genereren we aan de hand van vier 1-Bit adders. Voor de outputs P0 en G0 deze outputs maken we aan de hand van deze formules, binnen in onze 4-bit adder hebben we ook gebruik gemaakt can een carry-lookahead. Zodat onze uitneindelijke snelheid nog beter is. :
+p<sub>n</sub> = a<sub>i</sub> + b<sub>i</sub>
+g<sub>n</sub> = a<sub>i</sub> * b<sub>i</sub>
+
+P<sub>0</sub> = p<sub>n</sub> * p<sub>n</sub> * p<sub>n</sub> * p<sub>n</sub>
+G<sub>0</sub> = g<sub>3</sub> + (p<sub>3</sub> * g<sub>2</sub>) + (p<sub>3</sub> * p<sub>2</sub> * g<sub>1</sub>) + (p<sub>3</sub> * p<sub>2</sub> * p<sub>2</sub> * g<sub>0</sub>)
+
+De P staat voor propagate en de G staat voor generate. De grote P en G gaan we dan als input gebruiken voor onze carry-lookahead. Hierdoor zal het programma sneller werken dan het programma in opgave 2. De drie verschillende 4-bit adders zullen tegelijkertijd kunnen rekenen tegenover de vorige, waar elke 1-bit adder moest wachten eer dat vorige klaar was om te starten.
+De P en G gebruiken we  om da CarryIns te produceren voor de andere 4- bit adders:
+
+C<sub>1</sub> = G<sub>0</sub> + (P<sub>0</sub> * C<sub>0</sub>)
+C<sub>2</sub> = G<sub>1</sub> + (P<sub>0</sub> * C<sub>0</sub>)  + (P<sub>0</sub> * P<sub>1</sub> *  C<sub>0</sub>)
+
+C<sub>3</sub> = G<sub>2</sub> + (P<sub>2</sub> * C<sub>1</sub>)  + (P<sub>2</sub> * P<sub>1</sub> * G<sub>0</sub>) + (P<sub>2</sub> * P<sub>1</sub> *  P<sub>0</sub> * C<sub>0</sub>)
+
+4 Bit Adder logisim implementatie:
+<img src="Opgave3_4BitAdder.png" alt="4 bit adder in logisim" width="400" height="">
+
+4 Bit Adder truth table:
+<img src="Opgave3_4BitAdder_TruthTable.jpg" alt="4 bit truth table notities" width="400" height="">
+
+Carry lookahead 4 Bit:
+<img src="Opgave3_CarryLookahead4Bit.png" alt="4 bit carry lookahead in logisim" width="400" height="">
+
+Volledig circuit:
+<img src="Opgave3_compleet.png" width="400" height="">
+
+<b>Opgave 4:</b>
+Bij de ripple-carry adder komen we 12 keer 3 gates tegen vooraleer we de uitkomst weten en bij de carry lookahead adder komen we maar 8 gates tegen. Dus de carry lookahead adder is bijna 4,5  keer sneller dan de ripple carry-adder.
+<img src="Opgave4.PNG" width="400" height="">
+</p>
+
+
+
+
+</body></html>

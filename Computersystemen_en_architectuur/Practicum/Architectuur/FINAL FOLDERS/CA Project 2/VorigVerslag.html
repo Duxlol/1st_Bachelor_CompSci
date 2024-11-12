@@ -1,0 +1,104 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+<title>Verslag</title>
+<!-- Het "u" element (underline) is geherdefinieerd voor overline -->
+<style type="text/css">
+    u { text-decoration: overline; }
+    p { white-space: pre-line; }
+</style>
+</head>
+<body>
+
+<h1>Verslag</h1>
+<p><b>Titel:</b> <i>CA Project 1: Gates and Wires</i></p>
+<p>Dit verslag werd opgesteld door:<br>
+</p><ul>
+<li><b>Naam:</b> <i>Siebe Hach&#233</i><br>
+<b>Studentennummer:</b> <i>20242412</i><br>
+<b>Email adres:</b> <i>sieben.hache@student.uantwerpen.be</i>
+</li>
+<li><b>Naam:</b> <i>Thijs Van Schel</i><br>
+<b>Studentennummer:</b> <i>20245821</i><br>
+<b>Email adres:</b> <i>thijs.vanschel@student.uantwerpen.be</i>
+</li>
+</ul>
+<b>Aantal man-uren besteed:</b> <i>10</i><br>
+<b>Moeilijkheidsgraad:</b> <i>6</i> /10<p></p>
+
+<h2>Inhoud van de oplossing</h2>
+<p>De oplossing bestaat uit de volgende bestanden:</p>
+<ul>
+<li><a href="./opgave1.circ">opgave1.circ</a>: .circ bestand van opgave 1a</li>
+<li><a href="./opgave1a.png">opgave1a.png</a>: screenshot van opgave 1a</li>
+<li><a href="./opgave1b.png">opgave1b.png</a>: screenshot van opgave 1b</li>
+<br/>
+<li><a href="./opgave2.jpg">opgave2.jpg</a>: foto van oplossing opgave 2</li>
+<br/>
+<li><a href="./opgave3.circ">opgave3.circ</a>: .circ bestand van opgave 3</li>
+<li><a href="./opgave3_AND.png">opgave3_AND.png</a>: screenshot van opgave 3 - AND Gate</li>
+<li><a href="./opgave3_OR.png">opgave3_OR.png</a>: screenshot van opgave 3 - OR Gate</li>
+<li><a href="./opgave3_NOT.png">opgave3_NOT.png</a>: screenshot van opgave 3 - NOT Gate</li>
+<br/>
+<li><a href="./opgave4.circ">opgave4.circ</a>: .circ bestand van opgave 4</li>
+<li><a href="./opgave4.png">opgave4.png</a>: screenshot van oplossing opgave 4</li>
+<li><a href="./opgave4_notities.jpg">opgave4_notities.jpg</a>: screenshot van &#239; notities opgave 4</li>
+<br/>
+<li><a href="./opgave5.circ">opgave5.circ</a>: .circ bestand van opgave 5</li>
+<li><a href="./opgave5.png">opgave5.png</a>: screenshot van oplossing opgave 5</li> 
+<li><a href="./opgave5_notities.png">opgave5_notities.png</a>: screenshot van &#239; notities bij opgave 5</li>
+<br/>
+
+</ul>
+
+<h2>Verslag</h2>
+<p>
+<b>Opgave 1:</b> 
+We hebben de theorie&#235;n van De Morgan bewezen aan de hand van Logisim.
+Door gebruik te maken van de OR, AND en NOT gates, kunnen we de stellingen simuleren in Logisim. In beide gevallen zie je dat in de waarheidstabel de twee leden gelijk zijn aan elkaar in alle gevallen. 
+a) <u>(A+B)</u> = <u>A</u> * <u>B</u>
+<img src="opgave1a.png" alt="opgave1a" width="600" height="">
+b) <u>(A*B)</u> = <u>A</u> + <u>B</u>
+<img src="opgave1b.png" alt="opgave1b" width="600" height="">
+
+<b>Opgave 2:</b>
+We hebben het bewijs opgelost, wat te zien is in onderstaande afbeelding, aan de hand van verschillende wetten:
+<img src="Laws_boolean_algebra.PNG" alt="wetten booleaanse algebra" width="" height="">
+Bij stap 1 gebruiken we de wet van distributiviteit om <u>(A*B*C)</u> te vermenigvuldigen met elk deel van de opsomming (A*B)+(A*C)+(B*C). 
+Nadien passen we de wetten van De Morgan toe op <u>(A*B*C)</u> om deze om te vormen naar (<u>A</u>+<u>B</u>+<u>C</u>). 
+Vervolgens hergebruiken we de wet van distributiviteit om de producten verder uit te werken. 
+Als laatste zullen we beide de inverse en associatieve wetten van booleaanse algebra hanteren om tot de uiteindelijke oplossing te komen, die we kunnen vereenvoudigen tot (A*B*<u>C</u>)+(A*<u>B</u>*C)+(<u>A</u>*B*C).
+<img src="opgave2.jpg" alt="opgave2" width="500" height="">
+
+<b>Opgave 3:</b>
+- AND Gate:
+We proberen een AND gate te imiteren aan de hand van NAND gates. In dit geval was het heel simpel omdat NAND een not gate is, na de AND gate. Dus als we de output van de eerste NAND gate in de tweede NAND steken, werkt het gewoon als een NOT gate, aangezien er maar 1 input is in die NAND. In de waarheidstabel kun je zien dat het effectief dezelfde uitkomsten krijgt.
+<img src="opgave3_AND.png" alt="opgave3 AND Gate" width="400" height="">
+- NOT Gate:
+Omdat een AND gate met &eacute;&eacute;n input niets verandert, kunnen we concluderen dat de
+NAND gate met &eacute;&eacute;n input gelijk is aan een NOT gate. Dit wordt weer goed weergeven door de waarheidstabel. 
+<img src="opgave3_NOT.png" alt="opgave3 NOT Gate" width="400" height="">
+- OR Gate:
+Hier zullen we er weer gebruik van van maken dat de NAND gate met &eacute;&eacute;n input gelijk is aan een NOT gate. We weten dat een OR gate maar in &eacute;&eacute;n geval gelijk is aan 0 en dat is als beide inputs gelijk zijn aan 0. Ook weten we dat een AND gate in maar &eacute;&eacute;n geval gelijk is aan 1, wanneer beide inputs 1 zijn. Dus als we nu de NOT gates van A en B in een NAND steken, krijgen we een circuit dat een OR gate imiteerd. 
+<img src="opgave3_OR.png" alt="opgave3 OR Gate" width="400" height="">
+
+<b>Opgave 4:</b>
+We hebben de truth table met inputs a, b en c en outputs x en y geanalyseerd. Voor output x starten we met de expressie: x = <u>A</u>*B*<u>C</u> + <u>A</u>*B*C + A*B*<u>C</u>. Dit zullen we dan vereenvoudigen tot x = B(<u>A</u>+<u>C</u>) Dit doen we aan de hand van de voorgaande wetten. 
+
+Voor output y starten we met: y = <u>A</u>*B*<u>C</u> + <u>A</u>*B*C + A*B*<u>C</u> + A*B*C + A*<u>B</u>*C + A*<u>B</u>*<u>C</u>. Hierna vereenvoudigen we dit tot y = <u>A</u>*B + <u>C</u>.
+De volledige bewerkingen zijn te vinden in onderstaande screenshot:
+<img src="opgave4_notities.jpg" alt="opgave4 notities" width="300" height="">
+Door deze uitgekomen expressies toe te passen, kunnen we een circuit bouwen in Logisim die ons uiteindelijk de correcte truth table gaf, overeenkomend met de opgave. Hier een screenshot van het circuit, samen met de truth table van beide de opgave en het zelfgemaakte circuit.
+<img src="opgave4.png" alt="opgave4" width="400" height="">
+
+<b>Opgave 5:</b>
+Eerst hebben we onderzocht hoe het scherm te werk ging door te kijken naar welke input welk lichtje liet branden. Daarna konden we een waarheidstabel opstellen, door te zien hoe we elk getal moesten voorstellen op het schermpje. 
+
+Nadat we de waarheidstabel hadden, konden we de booleaanse algebra&#239;sche uitdrukking opstellen. Deze hebben we volledig uitgeschreven.
+<img src="opgave5_notities.png" alt="opgave5 notities" width="350" height="">
+Door de 3-bit inout te splitten in 3 verschillende 1-bit stromen konden we de waarheidstabel makkelijk voorstellen door gebruik te maken van zo min mogelijk NOT AND en OR gates. 
+<img src="opgave5.png" alt="opgave5" width="550" height="">
+</p>
+
+
+
+</body></html>
