@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enhanced Logisim-Style Logic Gates</title>
+  <style>
+    body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f0f0; }
+    canvas { border: 1px solid #333; background-color: white; }
+  </style>
+</head>
+<body>
+
+<canvas id="gateCanvas" width="800" height="400"></canvas>
+
+<script>
+// Define grid size and gate properties
+const gridSize = 20;
+const objects = {
+  AND: {
+    label: "AND",
+    color: "#f4a742",
+    type: "GATE",
+    size: 3,
+    inputs: [{ x: 0, y: 10 }, { x: 0, y: 30 }, { x: 0, y: 50 }],
+    output: { x: 60, y: 30 },
+  },
+  OR: {
+    label: "OR",
+    color: "#42a5f5",
+    type: "GATE",
+    size: 3,
+    inputs: [{ x: 0, y: 10 }, { x: 0, y: 30 }, { x: 0, y: 50 }],
+    output: { x: 60, y: 30 },
+  },
+  NOT: {
+    label: "NOT",
+    color: "#ef5350",
+    type: "GATE",
+    size: 1,
+    inputs: [{ x: 0, y: 10 }],
+    output: { x: 20, y: 10 },
+  },
+  INPUT: {
+    label: "IN",
+    color: "#bdbdbd",
+    type: "GATE",
+    size: 1,
+    inputs: [],
+    output: { x: 20, y: 10 },
+  },
+  OUTPUT: {
+    label: "OUT",
+    color: "#bdbdbd",
+    type: "GATE",
+    size: 1,
+    inputs: [{ x: 0, y: 10 }],
+    output: {},
+  }
+};
+
+// Function to draw each gate with Logisim-style shapes
+function drawGate(x, y, gateType, rotation, id, ctx) {
+  const gate = objects[gateType];
+  if (!gate) return;
+
+  const gateSizePx = gridSize * gate.size;
+  const padding = 4;
+
+  ctx.save();
+  ctx.translate(x + gateSizePx / 2, y + gateSizePx / 2);
+  ctx.rotate((rotation * Math.PI) / 180);
+
+  ctx.fillStyle = gate.color;
+
+  switch (gateType) {
+    case "AND":
+      // Draw AND gate with flat left side and rounded right side
+      ctx.beginPath();
+      ctx.moveTo(-gateSizePx / 2, -gateSizePx / 2);
+      ctx.lineTo(0, -gateSizePx / 2);
+      ctx.arc(0, 0, gateSizePx / 2, -Math.PI / 2, Math.PI / 2);
+      ctx.lineTo(-gateSizePx / 2, gateSizePx / 2);
+      ctx.closePath();
+      ctx.fill();
+      break;
+
+    case "OR":
+      // Draw OR gate with shield-like curved shape
+      ctx.beginPath();
+      ctx.moveTo(-gateSizePx / 2 + padding, -gateSizePx / 2);
+      ctx.quadraticCurveTo(gateSizePx / 4, 0, -gateSizePx / 2 + padding, gateSizePx / 2);
+      ctx.lineTo(0, gateSizePx / 2);
+      ctx.arc(0, 0, gateSizePx / 2, Math.PI / 2, -Math.PI / 2);
+      ctx.closePath();
+      ctx.fill();
+      break;
+
+    case "NOT":
+      // Draw NOT gate as a triangle with a circle at the output
+      ctx.beginPath();
+      ctx.moveTo(-gateSizePx / 2, -gateSizePx / 2);
+      ctx.lineTo(gateSizePx / 2 - padding, 0);
+      ctx.lineTo(-gateSizePx / 2, gateSizePx / 2);
+      ctx.closePath();
+      ctx.fill();
+
+      // Draw the small circle at the output
+      ctx.beginPath();
+      ctx.arc(gate.output.x - gateSizePx / 2 + padding, gate.output.y - gateSizePx / 2, 3, 0, Math.PI * 2);
+      ctx.fillStyle = "#000";
+      ctx.fill();
+      break;
+
+    case "INPUT":
+    case "OUTPUT":
+      // Draw simple rectangular blocks for INPUT and OUTPUT
+      ctx.fillRect(-gateSizePx / 2, -gateSizePx / 4, gateSizePx, gateSizePx / 2);
+      break;
+
+    default:
+      ctx.fillRect(-gateSizePx / 2, -gateSizePx / 2, gateSizePx, gateSizePx);
+  }
+
+  // Draw label
+  ctx.fillStyle = "white";
+  ctx.font = "12px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(id ? id : gate.label, 0, 4);
+
+  // Draw input connectors
+  ctx.fillStyle = "#333";
+  gate.inputs.forEach(input => {
+    ctx.beginPath();
+    ctx.arc(input.x - gateSizePx / 2 + padding, input.y - gateSizePx / 2 + padding, 3, 0, Math.PI * 2);
+    ctx.fill();
+    // Line to the input
+    ctx.beginPath();
+    ctx.moveTo(input.x - gateSizePx / 2, input.y - gateSizePx / 2 + padding);
+    ctx.lineTo(input.x - gateSizePx / 2 - 10, input.y - gateSizePx / 2 + padding);
+    ctx.stroke();
+  });
+
+  // Draw output connector
+  if (gate.output) {
+    ctx.beginPath();
+    ctx.arc(gate.output.x - gateSizePx / 2 + padding, gate.output.y - gateSizePx / 2, 3, 0, Math.PI * 2);
+    ctx.fill();
+    // Line to the output
+    ctx.beginPath();
+    ctx.moveTo(gate.output.x - gateSizePx / 2 + padding + 3, gate.output.y - gateSizePx / 2);
+    ctx.lineTo(gate.output.x - gateSizePx / 2 + padding + 10, gate.output.y - gateSizePx / 2);
+    ctx.stroke();
+  }
+
+  ctx.restore();
+}
+
+// Initialize Canvas and Context
+const canvas = document.getElementById("gateCanvas");
+const context = canvas.getContext("2d");
+
+// Set line width
