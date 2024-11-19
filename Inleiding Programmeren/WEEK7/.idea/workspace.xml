@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="61887423-ce0b-46a5-a9bd-c745f491b1e8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/test.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-    </list>
+    <list default="true" id="61887423-ce0b-46a5-a9bd-c745f491b1e8" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -35,7 +32,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "C:/Users/Thijs/Documents/CompSci/Inleiding Programmeren/WEEK7",
+    "last_opened_file_path": "C:/Users/Thijs/Documents/CompSci/GAS/TOI",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -89,6 +86,7 @@
       <workItem from="1731578242907" duration="131000" />
       <workItem from="1731578382293" duration="16000" />
       <workItem from="1731627800974" duration="463000" />
+      <workItem from="1732041916675" duration="23000" />
     </task>
     <servers />
   </component>
