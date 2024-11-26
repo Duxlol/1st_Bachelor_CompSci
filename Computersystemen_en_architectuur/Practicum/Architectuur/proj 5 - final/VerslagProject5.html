@@ -1,0 +1,63 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+<title>Verslag</title>
+<!-- Het "u" element (underline) is geherdefinieerd voor overline -->
+<style type="text/css">
+    u { text-decoration: overline; }
+    p { white-space: pre-line; }
+</style>
+</head>
+
+<body>
+
+<h1>Verslag</h1>
+<p><b>Titel:</b> <i>CA Project 5: Datapath</i></p>
+<p>Dit verslag werd opgesteld door: <br>
+</p><ul>
+<li><b>Naam:</b> <i>Siebe Hach&#233</i><br>
+<b>Studentennummer:</b> <i>20242412</i><br>
+<b>Email adres:</b> <i>sieben.hache@student.uantwerpen.be</i>
+</li>
+<li><b>Naam:</b> <i>Thijs Van Schel</i><br>
+<b>Studentennummer:</b> <i>20245821</i><br>
+<b>Email adres:</b> <i>thijs.vanschel@student.uantwerpen.be</i>
+</li>
+</ul>
+<b>Aantal man-uren besteed:</b> <i>20</i><br>
+<b>Moeilijkheidsgraad:</b> <i>8</i>/10<p></p>
+
+<h2>Inhoud van de oplossing</h2>
+<p>De oplossing bestaat uit de volgende bestanden:</p>
+<ul>
+<li><a href="./SD_Group69.circ">SD_Group_69.circ</a>: .circ bestand van ons datapad</li>
+<li><a href="./ALU_Group_69.circ">ALU_Group_69.circ</a>: .circ bestand van onze ALU</li>
+<li><a href="./Opdracht4.3-4.4.circ">Opdracht4.3-4.4.circ</a>: .circ bestand van onze opdracht 4.3 en 4.4</li>
+<li><a href="./Opdracht4.5.circ">Opdracht4.5.circ</a>: .circ bestand van opdracht 4.5</li>
+
+
+</ul>
+<h2>Verslag</h2>
+<p>
+<b>Counter</b>
+Dit is de counter die we hebben gebruikt in onze pc. We maken gebruik van een mux om de juiste actie uit te voeren. We maten de juiste waarde doorkomen aan de hand van buffers in onze pc. Zodat branch relative of branch absolute wordt uitgevoerd. 
+<img src="Counter_for_pc.png" width="400" height="">
+
+<b>12-bit program counter:</b>
+<img src="12-bit-pc.png" width="400" height="">
+
+<b>Decoder:</b>
+De decoder is bij ons zeer beknopt, we splitsen gewoon de 16-bit data die uit de instruction RAM komt op in de operation, rd, rs, rt en functie. 
+<img src="Decoder.png" width="400" height="">
+
+<b>Controller:</b>
+Omdat onze decoder zo beknopt is, is onze controller iets geavanceerder. We maken bij alles gebruik van de operation code zodat de juiste waarden worden doorgegeven. We hebben lw, sw en de OR van subi, addi, lui en ldi als outputs die ons gaan helpen in het datapad om de juiste waarden door te laten tijdens operaties. De immediate laten we door aan de hand van de operator die gegevens is.
+<img src="Controller.png" width="400" height="">
+
+<b>Controller:</b>
+Onze instruction RAM's output wordt bepaald door de PC, de output wordt dan verwerkt door de decoder en controller. Deze zorgen ervoor dat alle juiste waardes gebruikt worden. De immediate wordt doorgegeven aan de ALU in plaats van de Rs als lw, sw, lui, ldi, subbi of addi aanstaat. We zorgen er ook voor dat enkel write uit staat bij Sw, en bij al de rest aan.
+
+<b>Datapad:</b>
+<img src="Datapad.png" width="400" height="">
+
+
+</body></html>
