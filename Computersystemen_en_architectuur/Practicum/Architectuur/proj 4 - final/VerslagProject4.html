@@ -1,0 +1,62 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=ISO-8859-15">
+<title>Verslag</title>
+<!-- Het "u" element (underline) is geherdefinieerd voor overline -->
+<style type="text/css">
+    u { text-decoration: overline; }
+    p { white-space: pre-line; }
+</style>
+</head>
+
+<body>
+
+<h1>Verslag</h1>
+<p><b>Titel:</b> <i>CA Project 4: Memory</i></p>
+<p>Dit verslag werd opgesteld door: <br>
+</p><ul>
+<li><b>Naam:</b> <i>Siebe Hach&#233</i><br>
+<b>Studentennummer:</b> <i>20242412</i><br>
+<b>Email adres:</b> <i>sieben.hache@student.uantwerpen.be</i>
+</li>
+<li><b>Naam:</b> <i>Thijs Van Schel</i><br>
+<b>Studentennummer:</b> <i>20245821</i><br>
+<b>Email adres:</b> <i>thijs.vanschel@student.uantwerpen.be</i>
+</li>
+</ul>
+<b>Aantal man-uren besteed:</b> <i>6</i><br>
+<b>Moeilijkheidsgraad:</b> <i>6</i>/10<p></p>
+
+<h2>Inhoud van de oplossing</h2>
+<p>De oplossing bestaat uit de volgende bestanden:</p>
+<ul>
+<li><a href="./ALU_Group_69.circ">ALU_Group_69.circ</a>: .circ bestand van onze ALU</li>
+<li><a href="./Opdracht4.3-4.4.circ">Opdracht4.3-4.4.circ</a>: .circ bestand van onze opdracht 4.3 en 4.4</li>
+<li><a href="./Opdracht4.5.circ">Opdracht4.5.circ</a>: .circ bestand van opdracht 4.5</li>
+
+</ul>
+<h2>Verslag</h2>
+<p>
+<b>12-Bit Register:</b>
+<img src="12-bit-register.png" width="400" height="">
+De 12-bit register hebben we gemaakt door het gebruik van D flip-flops. Ze zullen enkel waarden van D opnemen als er een clock cyclus gebeurt en write aan staat. Op deze manier kunnen we een 12-bit input opslaan om die later verder te gebruiken. De reset knop reset alle dflip flops, zodat de opgeslagen waarde wordt verwijderd. 
+
+<b>Register file:</b>
+<img src="Register_file.png" width="400" height="">
+De register file is gemaakt uit 8 12-bit registers, die apart worden gebruikt. Rd zorgt ervoor dat er enkel write doorkomt bij de 12-bit register waarin we een waarde willen opslaan. Rs en rt kunnen elk apart een van de 12-bit registers laten zien, door het gebruik van een mux.
+
+<b>Counter:</b>
+<img src="Counter.png" width="400" height="">
+De counter werkt door telkens de vorige waarde op te tellen met 1. De counter zal resetten als de waarde van de counter even groot is als de data-input. Dit doen we aan de hand van een comparator. Elke clock
+cyclus zal deze verhogen met 1.
+
+<b>Finite State Machine:</b>
+<img src="Finite_state_machine.png" width="400" height="">
+De finite state machine maakt gebruik van de counter en comparators. Als de counter gelijk is  aan een bepaalde waarde zullen de outputs van de comparators veranderen waardoor onze lichten ook veranderen. 
+
+<b>Stack:</b>
+<img src="Stack.png" width="400" height="">
+We maken gebruik van een pointer, dat eigenlijk een vermomde counter is, maar deze kan ook dalen in waarde. De clock ticks zullen enkel de pointer bereiken bij bepaalde gevallen. Bij 0 skipte onze counter te snel over de Ram waardes, waardoor we de data te laat konden opslaan in de ram. Hierdoor zal hij ook niet plots voorbij 0 gaan, naar de negatieve kant bij pop. 
+
+
+
+</body></html>
