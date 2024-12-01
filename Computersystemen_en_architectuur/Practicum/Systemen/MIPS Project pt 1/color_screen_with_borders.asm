@@ -38,6 +38,7 @@ fillRed:
 	jal colorColumn			# function to color the column
 	subi $t7, $t2, 1		# index for right column
 	jal colorColumn			# function to color the column
+	j exit
 	
 colorRow:
 	li $t8, 0			# row index
@@ -51,7 +52,6 @@ rowLoop:
 	addi $t8, $t8, 1		# increment index
 	blt $t8, $t2, rowLoop
 	jr $ra
-	
 colorColumn:
 	li $t8, 0			# column index
 columnLoop:
