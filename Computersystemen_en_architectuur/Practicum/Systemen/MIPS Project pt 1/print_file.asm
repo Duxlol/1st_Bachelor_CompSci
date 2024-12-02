@@ -2,8 +2,8 @@
 .data
 filename1: .asciiz "test_file_1.txt"
 filename2: .asciiz "test_file_2.txt"
-buffer:    .space 1024
-newline:   .asciiz "\n"
+buffer:    .space 2048
+newLine:   .asciiz "\n"
 
 .text
 main:
@@ -20,31 +20,40 @@ main:
     	# 2nd file
     	la   $a0, filename2
     	jal  print_file
+    	
+    	j exit
 
-print_file:
-	move $t0, $a0
-    
-	# open
-	move $a0, $t0
-	li   $a1, 0
-	li   $v0, 13         # syscall file descriptor
+print_file:    
+	# open file
+	li $v0, 13         # syscall file descriptor
+	li $a1, 0
+	li $a2, 0
 	syscall
-	
-	move $s0, $v0        # save descriptor ?
+	move $s0, $v0        # save descriptor
 
 	# read file
-	move $a0, $s0        # File descriptor
-	# ... still have to make this
+	li $v0, 14
+	move $a0, $s0
+	la $a1, buffer
+	li $a2, 2048
 	syscall
 
 	# print file
-	li   $v0, 4          # print string
-	la   $a0, buffer     # load buffer
+	li $v0, 4
+	la $a0, buffer
 	syscall
 
 	# print newline
-
+	la $a0, newLine
+	li $v0, 4
+	syscall
+	
 	# close file
+	li $v0, 16		# syscall close file
+	move $a0, $s0		# file descriptor to close
+	syscall
+	
+	jr $ra
 
 	    
 exit:
