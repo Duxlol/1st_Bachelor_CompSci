@@ -56,12 +56,14 @@ mazeProcessing:
 	lb $t3, 0($t0)
 	beqz $t3, endProcessing
 	
-	# calculate mem address || $gp + ((row * 512 + column) * 16)
-	mul $t4, $t1, 512
-	add $t4, $t4, $t2
-	mul $t4, $t4, 16
+	# calculate mem address || $gp + ((rowindex * columns + columnindex) * 4)
+	lw $t7, amountOfColumns
+	
+	mul $t4, $t1, $t7	# rowindex * columns
+	add $t4, $t4, $t2	# +columnindex
+	mul $t4, $t4, 4		# *4
 
-	add $t4, $t4, $gp 
+	add $t4, $t4, $gp 	# +gp
 	
 	beq $t3, 'w', makeWall	# if w as current buffer -> change to BLUE which is a WALL
 	beq $t3, 'p', makePath 	# if p -> change to BLACK which is a PATH
