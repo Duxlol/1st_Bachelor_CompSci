@@ -60,7 +60,7 @@ mazeProcessing:
 	mul $t4, $t1, 512
 	add $t4, $t4, $t2
 	mul $t4, $t4, 16
-	li $t5, 0x10040000
+
 	add $t4, $t4, $gp 
 	
 	beq $t3, 'w', makeWall	# if w as current buffer -> change to BLUE which is a WALL

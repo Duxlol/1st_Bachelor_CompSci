@@ -1,6 +1,6 @@
 .globl main
 .data
-mazeFilename:    .asciiz "D:\school\1st_Bachelor_CompSci\Computersystemen_en_architectuur\Practicum\Systemen\MIPS Project pt 2\input_1.txt"
+mazeFilename:    .asciiz "test.txt"
 buffer:          .space 4096
 readSuccessMsg:  .asciiz "File read successfully. Buffer contents:\n"
 newlineChar:     .asciiz "\n"
