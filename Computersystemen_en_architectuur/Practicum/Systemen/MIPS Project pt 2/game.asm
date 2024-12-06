@@ -94,7 +94,7 @@ makeExit:
 skip:
 	# update column index and check if we should go to next row
 	addi $t2, $t2, 1	# column counter =+ 1
-	li $t6, 34
+	li $t6, 33
 	#lw $t6, 0($t6)
 	bne $t6, $t2, continueMazeProcess # if we're not at the last column, add 1 to buffer
 	addi $t1, $t1, 1	# we're at the last column so we start processing the next row
