@@ -1,4 +1,4 @@
- .globl main
+.globl main
 
 .data
 mazeFilename:    .asciiz "input_1.txt"
@@ -25,7 +25,9 @@ main:
     	la   $a0, mazeFilename
     	jal  fileFunctions
     	
-    	j exit 			# nothing to do so go to exit
+    	j gameLoop
+
+### FILE AND MAZE FUNCTIONS ###
 
 fileFunctions: 
 	# open file
@@ -62,7 +64,6 @@ mazeProcessing:
 	mul $t4, $t1, $t7	# rowindex * columns
 	add $t4, $t4, $t2	# +columnindex
 	mul $t4, $t4, 4		# *4
-
 	add $t4, $t4, $gp 	# +gp
 	
 	beq $t3, 'w', makeWall	# if w as current buffer -> change to BLUE which is a WALL
@@ -85,6 +86,8 @@ makePlayer:
 	la $t5, playerColor	# load address of YELLOW / PLAYER
 	lw $t5, 0($t5)
 	sw $t5, 0($t4)
+	move $s0, $t1		# starting player row
+	move $s1, $t2		# starting player column
 	j skip
 makeExit:
 	la $t5, exitColor	# load address of GREEN / EXIT	
@@ -95,7 +98,6 @@ skip:
 	# update column index and check if we should go to next row
 	addi $t2, $t2, 1	# column counter =+ 1
 	li $t6, 33
-	#lw $t6, 0($t6)
 	bne $t6, $t2, continueMazeProcess # if we're not at the last column, add 1 to buffer
 	addi $t1, $t1, 1	# we're at the last column so we start processing the next row
 	li $t2, 0		# set column index to 0 after going to next row
@@ -106,6 +108,162 @@ continueMazeProcess:
 
 endProcessing:
 	jr $ra
+
+### PLAYER MOVEMENT ETC FUNCTIONS ###
+gameLoop:
+	li $v0, 12		# character input syscall
+	syscall			# characteru input syscall
+	move $t0, $v0		# input char in t0
+	
+	# check input
+	beq $t0, 'z', z		# up
+	beq $t0, 'q', q		# left
+	beq $t0, 's', s		# down	
+	beq $t0, 'd', d		# right
+	beq $t0, 'x', exit
+	
+	# sleep
+	li $v0, 32		# sleep syscall
+	li $a0, 60		# 60 ms sleep
+	syscall			# sleep syscall
+	
+	j gameLoop		# infinitely repeat gameloop
+z:
+	# save original position
+	move $t0, $s0		# current row = t0
+	move $t1, $s1		# current column = t1
+	
+	# move up = row -1 
+	subi $s0, $s0, 1
+	
+	# calculate new pos address
+	mul $t4, $s0, $t7	# rowindex * columns
+	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t4, 4		# *4
+	add $t4, $t4, $gp 	# +gp
+	
+	jal checkWall		# check if new pos is wall
+	
+	# if not wall, move player up
+	la $t5, playerColor	# load player color
+	lw $t5, 0($t5)		# load player color
+	sw $t5, 0($t4)		# set new pos to player color
+	
+	# restore prev position to passage color
+	mul $t4, $t0, $t7     # rowindex * columns
+    	add $t4, $t4, $t1     # + columnindex
+    	mul $t4, $t4, 4       # *4
+    	add $t4, $t4, $gp     # +gp
+    	
+    	la $t5, passageColor  # Load passage color
+    	lw $t5, 0($t5)
+    	sw $t5, 0($t4)        # Restore old position to passage colo
+    	
+    	j gameLoop
+	
+q:
+	# save original position
+	move $t0, $s0		# current row = t0
+	move $t1, $s1		# current column = t1
+	
+	# left = column - 1
+	subi $s1, $s1, 1
+	
+	# calculate new pos address
+	mul $t4, $s0, $t7	# rowindex * columns
+	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t4, 4		# *4
+	add $t4, $t4, $gp 	# +gp
+	
+	jal checkWall		# check if new pos is wall
+	
+	# if not wall, move player left
+	la $t5, playerColor	# load player color
+	lw $t5, 0($t5)		# load player color
+	sw $t5, 0($t4)		# set new pos to player color
+	
+	# restore prev position to passage color
+	mul $t4, $t0, $t7     # rowindex * columns
+    	add $t4, $t4, $t1     # + columnindex
+    	mul $t4, $t4, 4       # *4
+    	add $t4, $t4, $gp     # +gp
+    	
+    	la $t5, passageColor  # Load passage color
+    	lw $t5, 0($t5)
+    	sw $t5, 0($t4)        # Restore old position to passage colo
+    	
+    	j gameLoop
+s:
+	# save original position
+	move $t0, $s0		# current row = t0
+	move $t1, $s1		# current column = t1
+	
+	# down = row + 1
+	addi $s0, $s0, 1
+	
+	# calculate new pos address
+	mul $t4, $s0, $t7	# rowindex * columns
+	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t4, 4		# *4
+	add $t4, $t4, $gp 	# +gp
+	
+	jal checkWall		# check if new pos is wall
+	
+	# if not wall, move player up
+	la $t5, playerColor	# load player color
+	lw $t5, 0($t5)		# load player color
+	sw $t5, 0($t4)		# set new pos to player color
+	
+	# restore prev position to passage color
+	mul $t4, $t0, $t7     	# rowindex * columns
+    	add $t4, $t4, $t1     	# + columnindex
+    	mul $t4, $t4, 4       	# *4
+    	add $t4, $t4, $gp     	# +gp
+    	
+    	la $t5, passageColor  	# load passage color
+    	lw $t5, 0($t5)
+    	sw $t5, 0($t4)        	# restore old pos to passage color
+    	
+    	j gameLoop
+d:
+	# save original position
+	move $t0, $s0		# current row = t0
+	move $t1, $s1		# current column = t1
+	
+	# right = column + 1
+	addi $s1, $s1, 1
+	
+	# calculate new pos address
+	mul $t4, $s0, $t7	# rowindex * columns
+	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t4, 4		# *4
+	add $t4, $t4, $gp 	# +gp
+	
+	jal checkWall		# check if new pos is wall
+	
+	# if not wall, move player up
+	la $t5, playerColor	# load player color
+	lw $t5, 0($t5)		# load player color
+	sw $t5, 0($t4)		# set new pos to player color
+	
+	# restore prev position to passage color
+	mul $t4, $t0, $t7     # rowindex * columns
+    	add $t4, $t4, $t1     # + columnindex
+    	mul $t4, $t4, 4       # *4
+    	add $t4, $t4, $gp     # +gp
+    	
+    	la $t5, passageColor  # load passage color
+    	lw $t5, 0($t5)
+    	sw $t5, 0($t4)        # restore old position to passage color
+    	
+    	j gameLoop
+checkWall:	# DOESNT WORK BROIDALKFHPL:SAF"PO:SAIF:LDSAJKGF:"LDS
+	la $t5, wallColor	# load wall color in t5
+	lw $t5, 0($t5)		# load wall color in t5
+	lw $t6, 0($t4)		# load color of new pos
+	beq $t5, $t6, wallDetected
+	jr $ra
+
 
 exit:
     # syscall to end the program
