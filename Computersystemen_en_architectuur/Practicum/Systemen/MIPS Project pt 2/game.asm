@@ -3,7 +3,7 @@
 .data
 mazeFilename:    .asciiz "input_1.txt"
 buffer:          .space 4096
-victoryMessage:  .asciiz "You have won the game!"
+victoryMessage:  .asciiz "\nYou have won the game!"
 
 amountOfRows:    .word 16  # The mount of rows of pixels
 amountOfColumns: .word 32  # The mount of columns of pixels
@@ -58,6 +58,8 @@ mazeProcessing:
 	lb $t3, 0($t0)
 	beqz $t3, endProcessing
 	
+	beq $t3, 10, nextRow
+	
 	# calculate mem address || $gp + ((rowindex * columns + columnindex) * 4)
 	lw $t7, amountOfColumns
 	
@@ -95,12 +97,7 @@ makeExit:
 	sw $t5, 0($t4)
 	j skip
 skip:
-	# update column index and check if we should go to next row
-	addi $t2, $t2, 1	# column counter =+ 1
-	li $t6, 33
-	bne $t6, $t2, continueMazeProcess # if we're not at the last column, add 1 to buffer
-	addi $t1, $t1, 1	# we're at the last column so we start processing the next row
-	li $t2, 0		# set column index to 0 after going to next row
+	addi $t2, $t2, 1
 	
 continueMazeProcess:
 	addi $t0, $t0, 1	# add 1 to buffer to continue processing till we're at column 32
@@ -108,9 +105,16 @@ continueMazeProcess:
 
 endProcessing:
 	jr $ra
+	
+nextRow:
+	addi $t1, $t1, 1	# increment row counter
+	li $t2, 0		# reset column counter
+	addi $t0, $t0, 1	# move to next character
+	j mazeProcessing
 
 ### PLAYER MOVEMENT ETC FUNCTIONS ###
 gameLoop:
+	jal sleep	
 	li $v0, 12		# character input syscall
 	syscall			# characteru input syscall
 	move $t0, $v0		# input char in t0
@@ -121,27 +125,27 @@ gameLoop:
 	beq $t0, 's', s		# down	
 	beq $t0, 'd', d		# right
 	beq $t0, 'x', exit
-	
+sleep:
 	# sleep
 	li $v0, 32		# sleep syscall
 	li $a0, 60		# 60 ms sleep
 	syscall			# sleep syscall
 	
-	j gameLoop		# infinitely repeat gameloop
+	jr $ra
 z:
 	# save original position
 	move $t0, $s0		# current row = t0
 	move $t1, $s1		# current column = t1
 	
 	# move up = row -1 
-	subi $s0, $s0, 1
+	subi $t0, $t0, 1
 	
 	# calculate new pos address
-	mul $t4, $s0, $t7	# rowindex * columns
-	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t0, $t7	# rowindex * columns
+	add $t4, $t4, $t1	# +columnindex
 	mul $t4, $t4, 4		# *4
 	add $t4, $t4, $gp 	# +gp
-	
+	jal victoryCheck
 	jal checkWall		# check if new pos is wall
 	
 	# if not wall, move player up
@@ -150,14 +154,16 @@ z:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $t0, $t7     # rowindex * columns
-    	add $t4, $t4, $t1     # + columnindex
+	mul $t4, $s0, $t7     # rowindex * columns
+    	add $t4, $t4, $s1     # + columnindex
     	mul $t4, $t4, 4       # *4
     	add $t4, $t4, $gp     # +gp
     	
     	la $t5, passageColor  # Load passage color
     	lw $t5, 0($t5)
-    	sw $t5, 0($t4)        # Restore old position to passage colo
+    	sw $t5, 0($t4)        # Restore old position to passage color
+    	
+    	move $s0, $t0
     	
     	j gameLoop
 	
@@ -167,14 +173,15 @@ q:
 	move $t1, $s1		# current column = t1
 	
 	# left = column - 1
-	subi $s1, $s1, 1
+	subi $t1, $t1, 1
 	
 	# calculate new pos address
-	mul $t4, $s0, $t7	# rowindex * columns
-	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t0, $t7	# rowindex * columns
+	add $t4, $t4, $t1	# +columnindex
 	mul $t4, $t4, 4		# *4
 	add $t4, $t4, $gp 	# +gp
 	
+	jal victoryCheck
 	jal checkWall		# check if new pos is wall
 	
 	# if not wall, move player left
@@ -183,14 +190,16 @@ q:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $t0, $t7     # rowindex * columns
-    	add $t4, $t4, $t1     # + columnindex
+	mul $t4, $s0, $t7     # rowindex * columns
+    	add $t4, $t4, $s1     # + columnindex
     	mul $t4, $t4, 4       # *4
     	add $t4, $t4, $gp     # +gp
     	
     	la $t5, passageColor  # Load passage color
     	lw $t5, 0($t5)
-    	sw $t5, 0($t4)        # Restore old position to passage colo
+    	sw $t5, 0($t4)        # Restore old position to passage color
+
+    	move $s1, $t1
     	
     	j gameLoop
 s:
@@ -199,14 +208,15 @@ s:
 	move $t1, $s1		# current column = t1
 	
 	# down = row + 1
-	addi $s0, $s0, 1
+	addi $t0, $t0, 1
 	
 	# calculate new pos address
-	mul $t4, $s0, $t7	# rowindex * columns
-	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t0, $t7	# rowindex * columns
+	add $t4, $t4, $t1	# +columnindex
 	mul $t4, $t4, 4		# *4
 	add $t4, $t4, $gp 	# +gp
 	
+	jal victoryCheck
 	jal checkWall		# check if new pos is wall
 	
 	# if not wall, move player up
@@ -215,14 +225,16 @@ s:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $t0, $t7     	# rowindex * columns
-    	add $t4, $t4, $t1     	# + columnindex
+	mul $t4, $s0, $t7     	# rowindex * columns
+    	add $t4, $t4, $s1     	# + columnindex
     	mul $t4, $t4, 4       	# *4
     	add $t4, $t4, $gp     	# +gp
     	
     	la $t5, passageColor  	# load passage color
     	lw $t5, 0($t5)
     	sw $t5, 0($t4)        	# restore old pos to passage color
+    	jal victoryCheck
+    	move $s0, $t0
     	
     	j gameLoop
 d:
@@ -231,14 +243,15 @@ d:
 	move $t1, $s1		# current column = t1
 	
 	# right = column + 1
-	addi $s1, $s1, 1
+	addi $t1, $t1, 1
 	
 	# calculate new pos address
-	mul $t4, $s0, $t7	# rowindex * columns
-	add $t4, $t4, $s1	# +columnindex
+	mul $t4, $t0, $t7	# rowindex * columns
+	add $t4, $t4, $t1	# +columnindex
 	mul $t4, $t4, 4		# *4
 	add $t4, $t4, $gp 	# +gp
 	
+	jal victoryCheck
 	jal checkWall		# check if new pos is wall
 	
 	# if not wall, move player up
@@ -247,8 +260,8 @@ d:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $t0, $t7     # rowindex * columns
-    	add $t4, $t4, $t1     # + columnindex
+	mul $t4, $s0, $t7     # rowindex * columns
+    	add $t4, $t4, $s1     # + columnindex
     	mul $t4, $t4, 4       # *4
     	add $t4, $t4, $gp     # +gp
     	
@@ -256,16 +269,46 @@ d:
     	lw $t5, 0($t5)
     	sw $t5, 0($t4)        # restore old position to passage color
     	
+    	move $s1, $t1
+    	
     	j gameLoop
-checkWall:	# DOESNT WORK BROIDALKFHPL:SAF"PO:SAIF:LDSAJKGF:"LDS
-	la $t5, wallColor	# load wall color in t5
-	lw $t5, 0($t5)		# load wall color in t5
-	lw $t6, 0($t4)		# load color of new pos
-	beq $t5, $t6, wallDetected
+checkWall:
+    	la $t5, wallColor    # Load the wall color into $t5
+    	lw $t5, 0($t5)       # Dereference to get the actual wall color value
+    	lw $t6, 0($t4)       # Load the color of the new position
+    	beq $t5, $t6, wallDetected  # If the new position matches the wall color, jump to wallDetected
+    	jr $ra               # If not a wall, return to caller
+victoryCheck:
+	la $t5, exitColor
+	lw $t5, 0($t5)
+	lw $t6, 0($t4)
+	beq $t6, $t5, printVictory
 	jr $ra
-
+printVictory:
+	la $t5, playerColor	# load player color
+	lw $t5, 0($t5)		# load player color
+	sw $t5, 0($t4)		# set new pos to player color
+	
+	# restore prev position to passage color
+	mul $t4, $s0, $t7     # rowindex * columns
+    	add $t4, $t4, $s1     # + columnindex
+    	mul $t4, $t4, 4       # *4
+    	add $t4, $t4, $gp     # +gp
+    	
+    	la $t5, passageColor  # load passage color
+    	lw $t5, 0($t5)
+    	sw $t5, 0($t4)        # restore old position to passage color
+    	
+    	move $s1, $t1
+	
+	li $v0, 4
+	la $a0, victoryMessage
+	syscall
+	j exit
+wallDetected:
+    j gameLoop
 
 exit:
-    # syscall to end the program
-    li $v0, 10    
-    syscall
+    	# syscall to end the program
+    	li $v0, 10    
+    	syscall
