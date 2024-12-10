@@ -1,0 +1,15 @@
+**architectuur:**
+1. load immediate
+2. add testen
+
+zelf controller bouwen op examen
+we krijgen wel template:
+controller, decoder
+
+**systemen:**
+zet iets om nr hexadecimaal, nr IEEE754
+
+we moeten MIPS kunnen schrijven adhv cheatsheet,
+vragen:
+1. mips instructie (de)coderen
+2. stuk mips code schrijven met functiecall, via frame argumenten doorgeven, while lus gebruiken
