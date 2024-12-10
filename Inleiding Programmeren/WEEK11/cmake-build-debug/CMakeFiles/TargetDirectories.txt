@@ -1,0 +1,3 @@
+/home/kali/CLionProjects/WEEK11/cmake-build-debug/CMakeFiles/WEEK11.dir
+/home/kali/CLionProjects/WEEK11/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/kali/CLionProjects/WEEK11/cmake-build-debug/CMakeFiles/rebuild_cache.dir
