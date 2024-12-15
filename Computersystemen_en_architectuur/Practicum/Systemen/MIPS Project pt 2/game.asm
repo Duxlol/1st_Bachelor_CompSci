@@ -154,14 +154,14 @@ z:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $s0, $t7     # rowindex * columns
-    	add $t4, $t4, $s1     # + columnindex
-    	mul $t4, $t4, 4       # *4
-    	add $t4, $t4, $gp     # +gp
+	mul $t4, $s0, $t7     	# rowindex * columns
+    	add $t4, $t4, $s1     	# + columnindex
+    	mul $t4, $t4, 4       	# *4
+    	add $t4, $t4, $gp     	# +gp
     	
-    	la $t5, passageColor  # Load passage color
+    	la $t5, passageColor  	# Load passage color
     	lw $t5, 0($t5)
-    	sw $t5, 0($t4)        # Restore old position to passage color
+    	sw $t5, 0($t4)        	# Restore old position to passage color
     	
     	move $s0, $t0
     	
@@ -190,14 +190,14 @@ q:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $s0, $t7     # rowindex * columns
-    	add $t4, $t4, $s1     # + columnindex
-    	mul $t4, $t4, 4       # *4
-    	add $t4, $t4, $gp     # +gp
+	mul $t4, $s0, $t7     	# rowindex * columns
+    	add $t4, $t4, $s1     	# + columnindex
+    	mul $t4, $t4, 4       	# *4
+    	add $t4, $t4, $gp     	# +gp
     	
-    	la $t5, passageColor  # Load passage color
+    	la $t5, passageColor  	# Load passage color
     	lw $t5, 0($t5)
-    	sw $t5, 0($t4)        # Restore old position to passage color
+    	sw $t5, 0($t4)        	# Restore old position to passage color
 
     	move $s1, $t1
     	
@@ -260,24 +260,24 @@ d:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $s0, $t7     # rowindex * columns
-    	add $t4, $t4, $s1     # + columnindex
-    	mul $t4, $t4, 4       # *4
-    	add $t4, $t4, $gp     # +gp
+	mul $t4, $s0, $t7     	# rowindex * columns
+    	add $t4, $t4, $s1     	# + columnindex
+    	mul $t4, $t4, 4       	# *4
+    	add $t4, $t4, $gp     	# +gp
     	
-    	la $t5, passageColor  # load passage color
+    	la $t5, passageColor  	# load passage color
     	lw $t5, 0($t5)
-    	sw $t5, 0($t4)        # restore old position to passage color
+    	sw $t5, 0($t4)        	# restore old position to passage color
     	
     	move $s1, $t1
     	
     	j gameLoop
 checkWall:
-    	la $t5, wallColor    # Load the wall color into $t5
-    	lw $t5, 0($t5)       # Dereference to get the actual wall color value
-    	lw $t6, 0($t4)       # Load the color of the new position
-    	beq $t5, $t6, wallDetected  # If the new position matches the wall color, jump to wallDetected
-    	jr $ra               # If not a wall, return to caller
+    	la $t5, wallColor    	# load the wall color into $t5
+    	lw $t5, 0($t5)       	# dereference to get the actual wall color value
+    	lw $t6, 0($t4)       	# load the color of the new position
+    	beq $t5, $t6, wallDetected  # if the new position matches the wall color, jump to wallDetected
+    	jr $ra               	# if not wall, return to caller
 victoryCheck:
 	la $t5, exitColor
 	lw $t5, 0($t5)
@@ -290,14 +290,14 @@ printVictory:
 	sw $t5, 0($t4)		# set new pos to player color
 	
 	# restore prev position to passage color
-	mul $t4, $s0, $t7     # rowindex * columns
-    	add $t4, $t4, $s1     # + columnindex
-    	mul $t4, $t4, 4       # *4
-    	add $t4, $t4, $gp     # +gp
+	mul $t4, $s0, $t7     	# rowindex * columns
+    	add $t4, $t4, $s1     	# + columnindex
+    	mul $t4, $t4, 4       	# *4
+    	add $t4, $t4, $gp     	# +gp
     	
-    	la $t5, passageColor  # load passage color
+    	la $t5, passageColor  	# load passage color
     	lw $t5, 0($t5)
-    	sw $t5, 0($t4)        # restore old position to passage color
+    	sw $t5, 0($t4)        	# restore old position to passage color
     	
     	move $s1, $t1
 	
