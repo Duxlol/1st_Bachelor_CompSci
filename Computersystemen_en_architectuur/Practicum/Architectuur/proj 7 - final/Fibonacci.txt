@@ -1,0 +1,28 @@
+#Fibonacci
+LOADMEM
+	
+zero r1        	
+ldi r2 1       	#r2 = 1 
+zero r3        	#r3 pointer voor data
+sw r1 r3 0     	
+addi r3 1      	#Verhoog pointer 
+sw r2 r3 0     	#1 op 1 zetten van data
+addi r3 1      	#Verhoog pointer 
+
+#Loop
+
+add r4 r1 r2   	#r4 = r1 + r2 volgend getal van de rij
+sw r4 r3 0     	#r4 wordt op volgende adres gezet
+addi r3 1      	#Verhoog pointer
+
+add r5 r2 r0  	#zet r2 in r5 om die te verplaatsen naar r1
+ldi r1 0 			#reset r1 terug naar 0
+add r1 r2 r0		#r1 = r2 (n-1 wordt n-2)
+
+ldi r2 0
+
+add r2 r4 r0   	#r2 = r4 (n wordt n-1)
+
+j 7         		# Ga terug naar begin van de loop
+
+END
