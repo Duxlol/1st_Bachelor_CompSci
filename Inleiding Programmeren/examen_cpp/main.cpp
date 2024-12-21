@@ -8,7 +8,7 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(700, 700), "Game");
     Game game = Game(&window);
-    game.loadMap();
+    game.loadMap("../resources/map.txt");
     game.update();
     return 0;
 }

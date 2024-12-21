@@ -1,6 +1,7 @@
 #include "Game.h"
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 Game::Game(sf::RenderWindow* window) {
     this->window = window;
 }
@@ -29,8 +30,8 @@ void Game::update() {
 
 }
 
-void Game::loadMap() {
-    std::ifstream mapTxt("../resources/map.txt");
+void Game::loadMap(const std::string& filepath) {
+    std::ifstream mapTxt(filepath);
 
     // error handling
     if (!mapTxt.is_open()) { // is_open from https://www.geeksforgeeks.org/std-ifstream-isopen-in-cpp/
@@ -92,6 +93,12 @@ void Game::loadMap() {
                     player->setSprite("../resources/player.png");
                     room->addEntity(player);
                     this->currentRoom = room;
+
+                    // make floor of starting position
+                    Floor* floor = new Floor();
+                    floor->setPosition(pos);
+                    floor->setSprite("../resources/floor.png");
+                    room->addEntity(floor);
                     break;
                 }
 

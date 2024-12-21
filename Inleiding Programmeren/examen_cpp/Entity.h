@@ -64,10 +64,12 @@ class Weapon : public Entity {
 public:
     Entity* interacts(Player* player, const Position& previousPos) override;
 private:
-    int weaponPower = 10;
+    int weaponPower = 1;
 };
 
-class Enemy : public Entity {};
+class Enemy : public Entity {
+    Entity* interacts(Player* player, const Position& previousPos) override;
+};
 
 class Floor : public Entity {};
 

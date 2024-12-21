@@ -1,8 +1,5 @@
-//
-// Created by Tim Apers on 29/10/2024.
-//
-
 #include "Room.h"
+#include <algorithm>
 
 void Room::render(sf::RenderWindow* window) const {
     Player* player = nullptr;
@@ -17,6 +14,7 @@ void Room::render(sf::RenderWindow* window) const {
 }
 
 void Room::update(sf::Event* event) {
+
     Player* player = nullptr;
     Position previousPlayerPos;
 
@@ -42,6 +40,10 @@ void Room::update(sf::Event* event) {
             if (entity != player && player->standsOn(*entity)) {
                 Entity* deleteEntity = entity->interacts(player, previousPlayerPos);
                 if (deleteEntity) {
+                    Floor* floor = new Floor();
+                    floor->setPosition(deleteEntity->getPosition());
+                    floor->setSprite("../resources/floor.png");
+                    addEntity(floor);
                     deletedEntities.push_back(deleteEntity);
                 }
             }

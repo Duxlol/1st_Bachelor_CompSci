@@ -62,12 +62,23 @@ void Player::update(sf::Event* event) {
 
 Entity* Weapon::interacts(Player* player, const Position& previousPos)  {
     if (player->standsOn(*this)) { // if player is on weapon
-        int currentAttackPower = player->getAttackPower();
-        int weaponBonus = this->weaponPower;
-        player->setAttackPower(currentAttackPower+weaponBonus);
+        int currentAttackPower = player->getAttackPower(); // no attackpower in currentAttackPower as player has no weapon
+        int weaponBonus = this->weaponPower; // attackPower of weapon in weaponBonus (10)
+        player->setAttackPower(currentAttackPower+weaponBonus); // use setter to set new player attackpower
         return this;
     }
     return nullptr;
+}
+
+Entity * Enemy::interacts(Player *player, const Position &previousPos) {
+    if (player->standsOn(*this)) { // if player on enemy
+        if (player->getAttackPower()<1) { //if not enough attack power
+            player->setPosition(previousPos); // put player back to previous position
+            return nullptr; // enemy is like a wall
+        } else {
+            return this; // enough attack power, enemy gets defeated
+        }
+    }
 }
 
 int Player::getAttackPower() const {

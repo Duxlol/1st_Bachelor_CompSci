@@ -16,13 +16,16 @@ public:
     Room* getCurrentRoom() { return currentRoom; }
 
     // Deze functies zal je zelf verder moeten aanvullen
-    void loadMap();
+    void loadMap(const std::string& filepath);
     void setCurrentRoom();
+
 
 
 private:
     sf::RenderWindow* window;
     std::vector<Room*> rooms;
+    std::vector<int> layout; // 0 = niet bezocht, 1 = bezocht
+    int roomsWidth;
     Room* currentRoom = nullptr;
 };
 

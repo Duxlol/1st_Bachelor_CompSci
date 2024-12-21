@@ -20,6 +20,7 @@ public:
     void addEntity(Entity* entity); // adder for entities
 
 
+
 private:
     std::vector<Entity*> entities;
 };
