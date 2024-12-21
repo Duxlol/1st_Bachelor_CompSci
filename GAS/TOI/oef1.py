@@ -1,63 +1,41 @@
 class Node:
-    def __init__(self, value=None):
+    def __init__(self, value):
         self.value = value
         self.next = None
 
 class MyStack:
     def __init__(self):
-        self.top = None
+        self.top = None  # Points to the top node of the stack
 
     def isEmpty(self):
         return self.top is None
 
     def getTop(self):
-        if self.top is None:
-            return (False, None)
-        else:
-            return (True, self.top.value)
+        if self.isEmpty():
+            return (None, False)
+        return (self.top.value, True)
 
     def pop(self):
-        if self.top is None:
-            return (False, None)
-        else:
-            popped_value = self.top.value
-            self.top = self.top.next
-            return (True, popped_value)
+        if self.isEmpty():
+            return (None, False)
+        popped_value = self.top.value
+        self.top = self.top.next
+        return (popped_value, True)
 
-    def push(self, value):
-        new_node = Node(value)
+    def push(self, element):
+        new_node = Node(element)
         new_node.next = self.top
         self.top = new_node
         return True
 
     def save(self):
-        stack_list = []
-        current = self.top
-        while current is not None:
-            stack_list.append(current.value)
-            current = current.next
-        return stack_list
+        def recurse(node):
+            if node is None:
+                return []
+            return recurse(node.next) + [node.value]
+        return recurse(self.top)
 
-    def load(self, lst):
-        self.top = None
-        for item in reversed(lst):
-            self.push(item)
-
-if __name__ == "__main__":
-    s = MyStack()
-    print(s.isEmpty())
-    print(s.getTop()[1])
-    print(s.pop()[1])
-    print(s.push(2))
-    print(s.push(4))
-    print(s.isEmpty())
-    print(s.pop()[0])
-    s.push(5)
-    print(s.save())
-
-    s.load(['a','b','c'])
-    print(s.save())
-    print(s.pop()[0])
-    print(s.save())
-    print(s.getTop()[0])
-    print(s.save())
+    def load(self, elements):
+        self.top = None  # Reset the stack
+        for elem in elements:
+            self.push(elem)

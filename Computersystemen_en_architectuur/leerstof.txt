@@ -1,0 +1,105 @@
+In the following, PH5 stands for the Fifth Edition of
+the Patterson and Hennessy book "Computer Organization and Design"
+and PH6 stands for the Sixth Edition of that book. PH5/6 stands for both editions.
+
+The page ranges below should be interpreted as a broad guideline.
+Obviously, technical details or material that was not covered in class
+is not part of the material to study. 
+
+Conversely, all material presented in class (on slides and in (blackboard) scribbles)
+are part of the material to study, even if they are not covered in the textbook.
+A pertinent example is the introduction to Unicode character encoding.
+Note that where meaningful, scribbles have been added to the slides.
+
+--
+
+Intro:
+ 000.presentation.courseIntro.SystemsArchitecture.2425.pdf
+
+--
+
+"Systems"
+
+1. Computer Abstractions and Technology: performance
+
+ 110.presentation.computerAbstractionsTechnology.pdf
+ PH5/6 sections 1.1 - 1.4
+ PH5/6 sections 1.6 - 1.7
+ PH5 section 1.9 - 1.11 
+ PH6 section 1.9, 1.11 - 1.12 
+
+2. Data representation
+
+ 120.presentation.dataRepresentation.pdf
+
+3. Arithmetic for Computers
+
+ 240.presentation.computerArithmetic.pdf
+ PH5/6 sections 3.1 - 3.5  
+ (but not Accurate Arithmetic/Rounding with Guard Digits at the end of section 3.5)
+
+4. Instructions: Language of the Computer
+
+ 130.presentation.computerLanguage.pdf
+
+ PH5/6 sections 2.1 - 2.10
+ PH5/6 sections 2.12 - 2.14
+ PH5 sections 2.16 - 2.20
+ PH6 sections 2.16 - 2.19, 2.21 - 2.22
+ PH5/6 Appendix A.1 - A.6
+
+ 140.presentation.exceptions.pdf
+ exceptions_example.asm (busy loop printing en interrupt based keyboard input kunnen uitleggen, rest enkel ter illustratie)
+ PH5 section 4.9 (not Exceptions in Pipelined Implementation)
+ PH6 section 4.10 (not Exceptions in Pipelined Implementation)
+ PH5/6 Appendix A.7 (exceptions and interrupts) - A.8 (Input and Output)
+
+--
+
+"Architecture"
+
+5. Logic Design
+
+ 210.presentation.logicDesign.pdf
+ PH5/6 Appendix B.1 - B.3, B.5 - B.6 
+
+ 220.presentation.memory.pdf
+  NOT "DRAM Array" 
+ PH5/6 Appendix B.7 - B.8 (NOT "Specifying Sequential Logic in Verilog") 
+ PH5/6 Appendix B.9 - B.10 (NOT "DRAM Array")
+     no details about B.9, only general notions of concepts
+
+6. Datapath
+
+ 230.presentation.datapathSimple.pdf
+ PH5/6 sections 4.1 - 4.4
+
+7. Pipelining
+
+ 250.presentation.pipelining.pdf
+ PH5 4.5 - 4.6, pp. 272 - 303
+ PH6 4.7 - 4.8 (not branch delay)
+  be able to explain hazards and how forwarding may solve them,
+  need not be able to draw augmented datapath
+
+--
+
+Leerstof:
+
+ 55% punten
+  oefeningen gedurende het jaar
+
+ 20% punten
+  oefeningenexamen: enkel architectuur.
+  Vergelijkbare opgaven als gedurende het semester,
+  met wat pertinente systeemvragen zoals hex representatie van een instructie.
+  Gesloten boek, mag jaaroplossingen NIET meebrengen op USB stick.
+  * mondeling verdedigen
+
+ 25% punten
+ theorieexamen (schriftelijk)
+  * theorievragen
+  * assembleroefeningen ("instructietabel", exception registers gegeven)
+
+--
+

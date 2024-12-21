@@ -28,7 +28,7 @@ class MyStack:
         return False
 
     def save(self):
-        return [x for x in self.stack if x is not None]
+        return [self.stack[i] for i in range(self.top, -1, -1)]
 
     def load(self, elements):
         self.stack = [None] * self.capacity
@@ -37,6 +37,7 @@ class MyStack:
             if self.top < self.capacity - 1:
                 self.top += 1
                 self.stack[self.top] = elem
+
 if __name__ == "__main__":
     s = MyStack(2)
     print(s.isEmpty())
