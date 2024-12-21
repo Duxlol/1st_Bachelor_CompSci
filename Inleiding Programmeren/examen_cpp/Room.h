@@ -9,17 +9,17 @@
 
 class Room {
 public:
-    // Deze functie niet aanpassen!
+    // Deze functie niet aanpassen! //
     void render(sf::RenderWindow* window) const;
+    /////////////
 
-    // Deze functie zal je zelf verder moeten aanvullen
     void update(sf::Event* event);
 
-    // getter entities in room
-    std::vector<Entity*> getEntities() const;
+    std::vector<Entity*> getEntities() const; // getter entities in room
+    std::vector<Entity*>& getEntities() { return entities; } // getter entities which is non const for setCurrentRoom
+    void addEntity(Entity* entity); // adder for entities
 
-    // adder for entities
-    void addEntity(Entity* entity);
+
 private:
     std::vector<Entity*> entities;
 };

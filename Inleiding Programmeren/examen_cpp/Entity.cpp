@@ -30,31 +30,50 @@ void Entity::setPosition(const Position& pos) {
 }
 
 void Entity::update(sf::Event* event) {
+}
 
+bool Entity::standsOn(const Entity& other) const {
+    Position otherPos = other.getPosition();
+    return position.x == otherPos.x && position.y == otherPos.y;
 }
 
 
 
 void Player::update(sf::Event* event) {
+    Position currentPosition = getPosition();
+    Position newPosition = currentPosition;
     switch (event->key.code) {
         case sf::Keyboard::Left:
-            // Move to the left
+                newPosition.x -= 100;
                 break;
         case sf::Keyboard::Right:
-            // Move to the right
+                newPosition.x += 100;
                 break;
         case sf::Keyboard::Up:
-            // Move up
+                newPosition.y -= 100;
                 break;
         case sf::Keyboard::Down:
-            // Move down
+                newPosition.y += 100;
                 break;
         default: break;
     }
+    setPosition(newPosition); // update player position
 }
+
+Entity* Weapon::interacts(Player* player, const Position& previousPos)  {
+    if (player->standsOn(*this)) { // if player is on weapon
+        int currentAttackPower = player->getAttackPower();
+        int weaponBonus = this->weaponPower;
+        player->setAttackPower(currentAttackPower+weaponBonus);
+        return this;
+    }
+    return nullptr;
+}
+
 int Player::getAttackPower() const {
     return attackpower;
 }
 void Player::setAttackPower(int newAttackPower) {
     attackpower = newAttackPower;
 }
+

@@ -51,7 +51,6 @@ void Game::loadMap() {
         }
     }
 
-
     int y = 0;
     std::string line;
 
@@ -60,7 +59,7 @@ void Game::loadMap() {
             char tile = line[x]; // 1 tile = 1 x
             Position pos = {x * 100, y * 100}; // scaling
 
-            // calculate in which room entity has to be
+            // calc in which room entity has to be
             int roomX = x / side;
             int roomY = y / side;
             Room* room = rooms[roomY * roomsWidth + roomX]; // chatgpt helped me find this formula
@@ -92,7 +91,6 @@ void Game::loadMap() {
                     player->setPosition(pos);
                     player->setSprite("../resources/player.png");
                     room->addEntity(player);
-
                     this->currentRoom = room;
                     break;
                 }
@@ -125,6 +123,41 @@ void Game::loadMap() {
     }
 }
 void Game::setCurrentRoom() {
+    // find player in current room
+    Player* player = nullptr;
+    if (currentRoom) {
+        for (Entity* entity : currentRoom->getEntities()) {
+            if (Player* p = dynamic_cast<Player*>(entity)) {
+                player = p;
+                break;
+            }
+        }
+    }
+    if (!player) return; // theres no player
 
+    Position playerPos = player->getPosition(); // players position
+    // calc in which room player is
+    int roomX = playerPos.x / 700;
+    int roomY = playerPos.y / 700;
+    int mapWidth = 2;
+    int index = roomY * mapWidth + roomX; // chatgpt helped me find this formula, like mentioned in loadMap(), it calcs the index of the room
 
+    // failsafe check if the index for the room actually exists or not
+    if (index >= 0 && index < rooms.size()) {
+        Room* newRoom = rooms[index];
+
+        // only change if going thru a hallway
+        if (newRoom != currentRoom) {
+            // move player to newroom n remove player from current romo
+            if (currentRoom) {
+                std::vector<Entity *>& currentEntities = currentRoom->getEntities();
+                auto it = std::find(currentEntities.begin(), currentEntities.end(), player); // vector iterator from (https://www.geeksforgeeks.org/how-to-use-iterator-with-vector-in-cpp/)
+                if (it != currentEntities.end()) {
+                    currentEntities.erase(it);
+                }
+            }
+            newRoom->addEntity(player); // player to newroom
+            currentRoom = newRoom; // currentroom is the room we now moved to
+        }
+    }
 }
