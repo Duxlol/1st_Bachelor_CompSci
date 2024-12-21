@@ -31,17 +31,39 @@ void Game::update() {
 
 void Game::loadMap() {
     std::ifstream mapTxt("../resources/map.txt");
-    if (currentRoom == nullptr) {
-        currentRoom = new Room(); // maak een nieuwe kamer als er nog geen is
+
+    // error handling
+    if (!mapTxt.is_open()) { // is_open from https://www.geeksforgeeks.org/std-ifstream-isopen-in-cpp/
+        std::cerr << "can't open the map txt" << std::endl;
     }
+
+    int side = 7;                       // 7x7 grid in a room
+    int mapWidth = 1400;
+    int mapHeight = 1400;
+    int roomsWidth = mapWidth / 700;    // amount of rooms horizontally
+    int roomsHeight = mapHeight / 700;  // amount of rooms vertically
+    // make all rooms
+    for (int y = 0; y < roomsHeight; y++) {
+        for (int x = 0; x < roomsWidth; x++) {
+            Room* room = new Room();
+            rooms.push_back(room);      // add room to vector of rooms
+
+        }
+    }
+
+
     int y = 0;
     std::string line;
 
     while (std::getline(mapTxt, line)) { // loop to read lines from inginious friday week 8 ex7
         for (int x = 0; x < line.size(); x++) { //go over each x (row), line.size times (columns)
-            char tile = line[x];
-            int absoluteX = x * 100;
-            int absoluteY = y * 100;
+            char tile = line[x]; // 1 tile = 1 x
+            Position pos = {x * 100, y * 100}; // scaling
+
+            // calculate in which room entity has to be
+            int roomX = x / side;
+            int roomY = y / side;
+            Room* room = rooms[roomY * roomsWidth + roomX]; // chatgpt helped me find this formula
 
             // cases to check each character
             switch (tile) {
@@ -49,52 +71,47 @@ void Game::loadMap() {
                 //wall
                 case '#': { //
                     Wall* wall = new Wall();
-                    Position pos = {absoluteX, absoluteY};
                     wall->setPosition(pos);
                     wall->setSprite("../resources/wall.png");
-                    currentRoom->addEntity(wall);
+                    room->addEntity(wall);
                     break;
                 }
 
                 // floor
                 case '_': {
                     Floor* floor = new Floor();
-                    Position pos = {absoluteX, absoluteY};
                     floor->setPosition(pos);
                     floor->setSprite("../resources/floor.png");
-                    currentRoom->addEntity(floor);
+                    room->addEntity(floor);
                     break;
                 }
 
                 // player
                 case '@': {
                     Player* player = new Player();
-                    Position pos = {absoluteX, absoluteY};
                     player->setPosition(pos);
                     player->setSprite("../resources/player.png");
-                    currentRoom->addEntity(player);
+                    room->addEntity(player);
 
-                    this->currentRoom = currentRoom;
+                    this->currentRoom = room;
                     break;
                 }
 
                 //enemy
                 case '%': {
                     Enemy* enemy = new Enemy();
-                    Position pos = {absoluteX, absoluteY};
                     enemy->setPosition(pos);
                     enemy->setSprite("../resources/enemy.png");
-                    currentRoom->addEntity(enemy);
+                    room->addEntity(enemy);
                     break;
                 }
 
                 // weapon
                 case '!': {
                     Weapon* weapon = new Weapon();
-                    Position pos = {absoluteX, absoluteY};
                     weapon->setPosition(pos);
                     weapon->setSprite("../resources/weapon.png");
-                    currentRoom->addEntity(weapon);
+                    room->addEntity(weapon);
                     break;
                 }
                 default: {
