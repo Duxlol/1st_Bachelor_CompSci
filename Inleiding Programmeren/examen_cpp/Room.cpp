@@ -21,3 +21,11 @@ void Room::update(sf::Event* event) {
         entity->update(event);
     }
 }
+
+std::vector<Entity *> Room::getEntities() const {
+    return entities;
+}
+
+void Room::addEntity(Entity* entity) {
+    entities.push_back(entity);
+}

@@ -15,6 +15,11 @@ public:
     // Deze functie zal je zelf verder moeten aanvullen
     void update(sf::Event* event);
 
+    // getter entities in room
+    std::vector<Entity*> getEntities() const;
+
+    // adder for entities
+    void addEntity(Entity* entity);
 private:
     std::vector<Entity*> entities;
 };

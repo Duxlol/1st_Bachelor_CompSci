@@ -21,6 +21,12 @@ public:
     void render(sf::RenderWindow *painter);
     ~Entity() = default;
 
+    //getter
+    Position getPosition() const;
+
+    //setter
+    void setPosition(const Position& pos);
+
 private:
     Position position;
     sf::Sprite sprite;
@@ -31,10 +37,16 @@ private:
 class Player : public Entity {
 public:
     void update(sf::Event* event) override;
+
+    //getter
+    int getAttackPower() const;
+    //setter
+    void setAttackPower(int newAttackPower);
+private:
+    int attackpower;
 };
 
 class Weapon : public Entity {};
-
 class Wall : public Entity {};
 
 class Floor : public Entity {};

@@ -21,9 +21,19 @@ void Entity::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 
+Position Entity::getPosition() const {
+    return position;
+}
+
+void Entity::setPosition(const Position& pos) {
+    position = pos;
+}
+
 void Entity::update(sf::Event* event) {
 
 }
+
+
 
 void Player::update(sf::Event* event) {
     switch (event->key.code) {
@@ -41,4 +51,10 @@ void Player::update(sf::Event* event) {
                 break;
         default: break;
     }
+}
+int Player::getAttackPower() const {
+    return attackpower;
+}
+void Player::setAttackPower(int newAttackPower) {
+    attackpower = newAttackPower;
 }
