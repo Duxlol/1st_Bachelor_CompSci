@@ -38,11 +38,22 @@ void Game::loadMap(const std::string& filepath) {
         std::cerr << "can't open the map txt" << std::endl;
     }
 
-    int side = 7;                       // 7x7 grid in a room
-    int mapWidth = 1400;
-    int mapHeight = 1400;
-    int roomsWidth = mapWidth / 700;    // amount of rooms horizontally
-    int roomsHeight = mapHeight / 700;  // amount of rooms vertically
+    int maxWidth = 0;
+    int totalHeight = 0;
+    std::vector<std::string> mapLines;
+    const int ROOM_SIDE = 7;  // 7x7 grid in a room
+
+
+    std::string line;
+    while (std::getline(mapTxt, line)) {
+        maxWidth = std::max(maxWidth, static_cast<int>(line.length()));
+        totalHeight++;
+        mapLines.push_back(line); // put lines in maplines to add all entities in the 2nd loop
+    }
+
+    roomsWidth = (maxWidth + ROOM_SIDE - 1) / ROOM_SIDE;
+    roomsHeight = (totalHeight + ROOM_SIDE - 1) / ROOM_SIDE;
+
     // make all rooms
     for (int y = 0; y < roomsHeight; y++) {
         for (int x = 0; x < roomsWidth; x++) {
@@ -52,17 +63,15 @@ void Game::loadMap(const std::string& filepath) {
         }
     }
 
-    int y = 0;
-    std::string line;
-
-    while (std::getline(mapTxt, line)) { // loop to read lines from inginious friday week 8 ex7
+    for (int y = 0; y < mapLines.size(); y++) { // loop to read lines from inginious friday week 8 ex7
+        const std::string& line = mapLines[y];
         for (int x = 0; x < line.size(); x++) { //go over each x (row), line.size times (columns)
             char tile = line[x]; // 1 tile = 1 x
             Position pos = {x * 100, y * 100}; // scaling
 
             // calc in which room entity has to be
-            int roomX = x / side;
-            int roomY = y / side;
+            int roomX = x / ROOM_SIDE;
+            int roomY = y / ROOM_SIDE;
             Room* room = rooms[roomY * roomsWidth + roomX]; // chatgpt helped me find this formula
 
             // cases to check each character
@@ -126,7 +135,6 @@ void Game::loadMap(const std::string& filepath) {
 
             }
         }
-        y++;
     }
 }
 void Game::setCurrentRoom() {
@@ -146,11 +154,10 @@ void Game::setCurrentRoom() {
     // calc in which room player is
     int roomX = playerPos.x / 700;
     int roomY = playerPos.y / 700;
-    int mapWidth = 2;
-    int index = roomY * mapWidth + roomX; // chatgpt helped me find this formula, like mentioned in loadMap(), it calcs the index of the room
+    int index = roomY * roomsWidth + roomX; // chatgpt helped me find this formula, like mentioned in loadMap(), it calcs the index of the room
 
     // failsafe check if the index for the room actually exists or not
-    if (index >= 0 && index < rooms.size()) {
+    if (roomX >= 0 && roomX < roomsWidth && roomY >= 0 && roomY < roomsHeight && index < rooms.size()) {
         Room* newRoom = rooms[index];
 
         // only change if going thru a hallway

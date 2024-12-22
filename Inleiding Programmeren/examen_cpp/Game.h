@@ -26,6 +26,7 @@ private:
     std::vector<Room*> rooms;
     std::vector<int> layout; // 0 = niet bezocht, 1 = bezocht
     int roomsWidth;
+    int roomsHeight;
     Room* currentRoom = nullptr;
 };
 
