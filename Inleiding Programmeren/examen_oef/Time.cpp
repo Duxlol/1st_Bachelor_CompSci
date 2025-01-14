@@ -1,5 +1,5 @@
 #include "Time.h"
-
+#include <iostream>
 Time::~Time() {
     delete[] hms;
 };
