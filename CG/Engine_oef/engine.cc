@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "easy_image.h"
 #include "ini_configuration.h"
 
@@ -58,12 +60,70 @@ img::EasyImage generateBlocks(int width, int height, int nrXBlocks, int nrYBlock
         return image;
 }
 
+img::EasyImage QuarterCircle(int height, int width, int nrLines, std::vector<double> lineColor, std::vector<double> backgroundColor) {
+       img::EasyImage image(width,height);
+
+        // background coloring
+        std::vector<int> scaledBgColor = scaleColor(backgroundColor);
+        std::vector<int> scaledLineColor = scaleColor(lineColor);
+        // for (int px=0; px<width; px++) {
+        //         for (int py=0; py<height; py++) {
+        //                 image(px,py) = img::Color(scaledBgColor[0], scaledBgColor[1],scaledBgColor[2]);
+        //         }
+        // }
+        img::Color bg(scaledBgColor[0], scaledBgColor[1], scaledBgColor[2]);
+        img::Color line(scaledLineColor[0], scaledLineColor[1], scaledLineColor[2]);
+        image.clear(bg);
+
+        double Hs = (height-1.0)/(nrLines-1);
+        double Ws = (width-1.0)/(nrLines-1);
+        // drawing lines
+        for (int i = 0; i < nrLines; ++i) {
+                int x_end = std::lround(i*Ws);
+                int y_start = std::lround(i*Hs);
+
+                x_end = std::max(0, std::min(x_end, width - 1));
+                y_start = std::max(0, std::min(y_start, height - 1));
+
+                image.draw_line(
+                        0,
+                        y_start,
+                        x_end,
+                        height-1,
+                        line
+                        );
+        }
+        return image;
+}
+
+img::EasyImage Eye(int height, int width, int nrLines, std::vector<double> lineColor, std::vector<double> backgroundColor) {
+        img::EasyImage image(width,height);
+        std::vector<int> scaledBgColor = scaleColor(backgroundColor);
+        std::vector<int> scaledLineColor = scaleColor(lineColor);
+        img::Color bg(scaledBgColor[0], scaledBgColor[1], scaledBgColor[2]);
+        img::Color line(scaledLineColor[0], scaledLineColor[1], scaledLineColor[2]);
+        image.clear(bg);
+
+        double Hs = height/(nrLines-1);
+        double Ws = width/(nrLines-1);
+
+        for (int i = 0; i < nrLines; ++i) {
+                int x_end = std::lround(i*Ws);
+                int y_start = std::lround(i*Hs);
+
+                x_end = std::max(0, std::min(x_end, width - 1));
+                y_start = std::max(0, std::min(y_start, height - 1));
+        }
+        return image;
+}
+
 img::EasyImage generate_image(const ini::Configuration &configuration)
 {
         std::string type = configuration["General"]["type"].as_string_or_die();
 
         int width = configuration["ImageProperties"]["width"];
         int height = configuration["ImageProperties"]["height"];
+
         if (type == "IntroColorRectangle") {
                 return generateColorRectangle(width, height);
         }
@@ -77,9 +137,23 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
                 bool invertColors = configuration["BlockProperties"]["invertColors"];
                 return generateBlocks(width, height, nrXBlocks, nrYBlocks, colorWhite, colorBlack, invertColors);
         }
+
+        if (type == "IntroLines") {
+                std::string figure = configuration["LineProperties"]["figure"];
+                if (figure == "QuarterCircle") {
+                        int nrLines = configuration["LineProperties"]["nrLines"];
+                        std::vector<double> lineColor = configuration["LineProperties"]["lineColor"];
+                        std::vector<double> backgroundColor = configuration["LineProperties"]["backgroundcolor"];
+                        return QuarterCircle(height,width,nrLines,lineColor,backgroundColor);
+                } if (figure == "Eye") {
+                        int nrLines = configuration["LineProperties"]["nrLines"];
+                        std::vector<double> lineColor = configuration["LineProperties"]["lineColor"];
+                        std::vector<double> backgroundColor = configuration["LineProperties"]["backgroundcolor"];
+                        return Eye(height,width,nrLines,lineColor,backgroundColor);
+                }
+        }
 	return img::EasyImage();
 }
-
 int main(int argc, char const* argv[])
 {
         int retVal = 0;
