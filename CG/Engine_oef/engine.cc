@@ -104,8 +104,8 @@ img::EasyImage Eye(int height, int width, int nrLines, std::vector<double> lineC
         img::Color line(scaledLineColor[0], scaledLineColor[1], scaledLineColor[2]);
         image.clear(bg);
 
-        double Hs = height/(nrLines-1);
-        double Ws = width/(nrLines-1);
+        double Hs = (height-1.0)/(nrLines-1);
+        double Ws = (width-1.0)/(nrLines-1);
 
         for (int i = 0; i < nrLines; ++i) {
                 int x_end = std::lround(i*Ws);
@@ -113,8 +113,33 @@ img::EasyImage Eye(int height, int width, int nrLines, std::vector<double> lineC
 
                 x_end = std::max(0, std::min(x_end, width - 1));
                 y_start = std::max(0, std::min(y_start, height - 1));
+
+                image.draw_line(0, y_start, x_end, height-1, line);
+                image.draw_line(width-1, y_start, x_end, 0, line);
         }
         return image;
+}
+
+img::EasyImage Diamond(int height, int width, int nrLines, std::vector<double> lineColor, std::vector<double> backgroundColor) {
+        img::EasyImage image = QuarterCircle(height, width, nrLines, lineColor, backgroundColor);
+        double Hs = (height-1.0)/(nrLines-1);
+        double Ws = (width-1.0)/(nrLines-1);
+
+        std::vector<int> scaledLine = scaleColor(lineColor);
+        img::Color scaledLineColor(scaledLine[0],scaledLine[1], scaledLine[2]);
+
+        for (int i = 0; i < nrLines; ++i) {
+                int x_end = std::lround(i*Ws);
+                int y_start = std::lround(i*Hs);
+                x_end = std::max(0, std::min(x_end, width - 1));
+                y_start = std::max(0, std::min(y_start, height - 1));
+
+                image.draw_line(width-1, y_start, width-1-x_end,height-1,scaledLineColor);
+                image.draw_line(0, height-1-y_start, x_end,0,scaledLineColor);
+                image.draw_line(width-1, height-1-y_start, width-1-x_end,0,scaledLineColor);
+        }
+        return image;
+
 }
 
 img::EasyImage generate_image(const ini::Configuration &configuration)
@@ -140,16 +165,17 @@ img::EasyImage generate_image(const ini::Configuration &configuration)
 
         if (type == "IntroLines") {
                 std::string figure = configuration["LineProperties"]["figure"];
+
+                int nrLines = configuration["LineProperties"]["nrLines"];
+                std::vector<double> lineColor = configuration["LineProperties"]["lineColor"];
+                std::vector<double> backgroundColor = configuration["LineProperties"]["backgroundcolor"];
+
                 if (figure == "QuarterCircle") {
-                        int nrLines = configuration["LineProperties"]["nrLines"];
-                        std::vector<double> lineColor = configuration["LineProperties"]["lineColor"];
-                        std::vector<double> backgroundColor = configuration["LineProperties"]["backgroundcolor"];
                         return QuarterCircle(height,width,nrLines,lineColor,backgroundColor);
                 } if (figure == "Eye") {
-                        int nrLines = configuration["LineProperties"]["nrLines"];
-                        std::vector<double> lineColor = configuration["LineProperties"]["lineColor"];
-                        std::vector<double> backgroundColor = configuration["LineProperties"]["backgroundcolor"];
                         return Eye(height,width,nrLines,lineColor,backgroundColor);
+                } if (figure == "Diamond") {
+                        return Diamond(height,width,nrLines,lineColor,backgroundColor);
                 }
         }
 	return img::EasyImage();
