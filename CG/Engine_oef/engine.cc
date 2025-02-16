@@ -121,7 +121,7 @@ img::EasyImage Eye(int height, int width, int nrLines, std::vector<double> lineC
 }
 
 img::EasyImage Diamond(int height, int width, int nrLines, std::vector<double> lineColor, std::vector<double> backgroundColor) {
-        img::EasyImage image = QuarterCircle(height, width, nrLines, lineColor, backgroundColor);
+        img::EasyImage image(width,height);
         double Hs = (height-1.0)/(nrLines-1);
         double Ws = (width-1.0)/(nrLines-1);
 
@@ -134,9 +134,15 @@ img::EasyImage Diamond(int height, int width, int nrLines, std::vector<double> l
                 x_end = std::max(0, std::min(x_end, width - 1));
                 y_start = std::max(0, std::min(y_start, height - 1));
 
-                image.draw_line(width-1, y_start, width-1-x_end,height-1,scaledLineColor);
-                image.draw_line(0, height-1-y_start, x_end,0,scaledLineColor);
-                image.draw_line(width-1, height-1-y_start, width-1-x_end,0,scaledLineColor);
+                //bottom left
+                image.draw_line((width/2)-1, y_start/2, (width/2)-1-(x_end/2),(height/2)-1,scaledLineColor);
+
+                image.draw_line((width/2)-1, (height/2)-1+(y_start/2), (x_end/2),(height/2)-1,scaledLineColor);
+
+                //top left
+                image.draw_line((width/2)-1, (height/2)-1+(y_start/2), (x_end/2),(height/2)-1,scaledLineColor);
+
+
         }
         return image;
 
