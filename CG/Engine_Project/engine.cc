@@ -43,10 +43,9 @@ struct Line2D {
         Point2D start, end;
 };
 
-std::vector<Line2D> generate2DLines(LParser::LSystem2D& lSystem) {
-        std::vector<Line2D> lines;
-
-        std::string current = lSystem.get_initiator();
+// std::vector<Line2D> generate2DLines(LParser::LSystem2D& lSystem) {
+//        std::vector<Line2D> lines;
+//        std::string current = lSystem.get_initiator();
 
 }
 img::EasyImage generate_image(const ini::Configuration &configuration) {
@@ -62,12 +61,6 @@ img::EasyImage generate_image(const ini::Configuration &configuration) {
                 std::ifstream l2dFile(inputfile);
                 l2dFile >> lSystem;
                 l2dFile.close();
-
-                std::vector<Line2D> lines = generate2DLines(lSystem); // getting the lines from the file
-
-                //draw
-                img::EasyImage image = drawLSystem(lines, size, lineColor, backgroundColor);
-                return image;
         }
 	return img::EasyImage();
 }

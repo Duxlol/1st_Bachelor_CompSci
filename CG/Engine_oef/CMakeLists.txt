@@ -18,6 +18,9 @@ set(engine_sources
 	easy_image.cc
 	engine.cc
 	ini_configuration.cc
+		intro_engine.cpp
+		l_parser.cc
+		LSystems.cpp
 )
 
 ############################################################
