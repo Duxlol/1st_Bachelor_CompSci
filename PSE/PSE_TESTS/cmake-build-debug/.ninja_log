@@ -1,0 +1,12 @@
+# ninja log v6
+69	475	1740059828535846463	build.ninja	4f0d26c124ac6686
+9	1041	1740057882431279538	CMakeFiles/debug_target.dir/src/Largest.cpp.o	eaaa829a9c0f48e4
+4	1213	1740059652015630366	CMakeFiles/debug_target.dir/src/main_debug.cpp.o	6b28ea2f10ab9618
+5	1288	1740057882427277538	CMakeFiles/debug_target.dir/src/Fighterplane.cpp.o	3a68368a31160435
+16	2026	1740057882439283538	CMakeFiles/debug_target.dir/src/tests.cpp.o	cf7b4234f597cfed
+1	94	1740059828535846463	build.ninja	4f0d26c124ac6686
+1	200	1740059828587872464	debug_target	c5cbc5f2771e6302
+6	451	1740059843535342463	CMakeFiles/release_target.dir/src/Largest.cpp.o	d7da8a5b7a080259
+4	1402	1740059843535342463	CMakeFiles/release_target.dir/src/Fighterplane.cpp.o	f516d085e733cca5
+6	1547	1740059843539344462	CMakeFiles/release_target.dir/src/main_release.cpp.o	d2e1c5bba26b7e9c
+1547	1809	1740059845052100460	release_target	71ab26c93dfa0b8f
