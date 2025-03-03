@@ -2,5 +2,5 @@
 	path = PSE/PSE_Project
 	url = https://github.com/Duxlol/PSE_Project.git
 [submodule "GAS2/to-groep-05_salim_thijs_stan_daniil"]
-    path = GAS2/to-groep-05_salim_thijs_stan_daniil
-    url = https://github.com/UAntwerpen/to-groep-05_salim_thijs_stan_daniil.git
+	path = GAS2/to-groep-05_salim_thijs_stan_daniil
+	url = https://github.com/UAntwerpen/to-groep-05_salim_thijs_stan_daniil.git
